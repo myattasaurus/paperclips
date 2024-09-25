@@ -5,9 +5,7 @@ export class Interval {
     #base = 1000;
     #min = 10;
 
-    constructor(callback) {
-        this.callback = callback;
-    }
+    constructor() { }
 
     start(count, callback) {
         let interval = Math.max(this.#min, this.#base / count);
