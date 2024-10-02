@@ -7,10 +7,8 @@ export class ClipsPerSecond {
 
     #previous = 0;
 
-    #oneSecondInterval = new Interval();
-
     constructor(paperclips) {
-        this.#oneSecondInterval.start(1, () => {
+        this.interval = new Interval(1000, () => {
             let current = paperclips.value;
             this.#value.value = current - this.#previous;
             this.#previous = current;

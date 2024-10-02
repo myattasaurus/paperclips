@@ -1,14 +1,14 @@
 import { DisplayInt, DisplayMoney } from '../common/Display.js'
 import { div, h3, hr, br, button, body } from '../common/elements.js'
+import { Interval } from '../common/Interval.js';
+import { Market } from './business/Market.js';
 
 export class Business {
-
-    #marketFrequency = 500;
 
     constructor() {
         this.funds = new DisplayMoney(0);
         this.price = new DisplayMoney(25);
-        this.marketDemand = new DisplayInt(100);
+        this.market = new Market(this);
         this.unsold = new DisplayInt(0);
     }
 
@@ -34,16 +34,6 @@ export class Business {
         this.price.value++;
     }
 
-    startMarket() {
-        setTimeout(() => {
-            if (Math.random() * 100 <= this.marketDemand.value) {
-                this.sell();
-            }
-            this.startMarket();
-        },
-            this.#marketFrequency);
-    }
-
     show() {
         let bus = div('business');
 
@@ -56,7 +46,7 @@ export class Business {
             button('raise', () => this.raisePrice())
         );
         bus.append(' Price per clip: ', this.price.element, br());
-        bus.append('Public demand: ', this.marketDemand.element, '%', br());
+        bus.append('Public demand: ', this.market.demand.element, '%', br());
 
         body().append(bus);
     }

@@ -9,21 +9,31 @@ export class Autoclippers {
     #initialCost = 500;
     #cost = new DisplayMoney(this.#initialCost);
 
-    #interval = new Interval();
+    constructor() {
+        this.interval = new Interval(1000);
+        this.button = null;
+    }
 
-    constructor() { }
-
-    increment(callback) {
+    increment() {
         this.count++;
         this.cost = Math.round(Math.pow(1.1, this.count) * 100 + this.#initialCost);
 
         let clips = 1;
         // TODO calculate clips
-        this.#interval.update(this.count, () => callback(clips));
+        this.interval.frequency = 1000 / this.count;
     }
 
-    show(game, mfc) {
-        mfc.append(button('Autoclippers', () => game.buyAutoclipper()), ' ', this.#count.element, br());
+    enableOrDisablePurchase(businessFunds) {
+        if (this.button) {
+            this.button.disabled = businessFunds < this.cost;
+        }
+    }
+
+    show(game) {
+        let mfc = document.getElementById('manufacturing');
+
+        this.button = button('Autoclippers', () => game.buyFirstAutoclipper());
+        mfc.append(this.button, ' ', this.#count.element, br());
         mfc.append('Cost: ', this.#cost.element);
     }
 

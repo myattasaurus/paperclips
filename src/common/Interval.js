@@ -1,19 +1,17 @@
 export class Interval {
 
-    #id = -1;
+    #previousTimestamp = 0;
+    frequency;
 
-    #base = 1000;
-    #min = 10;
-
-    constructor() { }
-
-    start(count, callback) {
-        let interval = Math.max(this.#min, this.#base / count);
-        this.#id = setInterval(callback, interval);
+    constructor(frequency, update = () => { }) {
+        this.frequency = frequency;
+        this.update = update;
     }
 
-    update(count, callback) {
-        clearInterval(this.#id);
-        this.start(count, callback);
+    run(timestamp) {
+        if (timestamp - this.#previousTimestamp > this.frequency) {
+            this.update();
+            this.#previousTimestamp = timestamp;
+        }
     }
 }
