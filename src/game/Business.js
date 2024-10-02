@@ -5,8 +5,8 @@ import { Market } from './business/Market.js';
 
 export class Business {
 
-    constructor() {
-        this.funds = new DisplayMoney(0);
+    constructor(init) {
+        this.funds = new DisplayMoney(init.funds);
         this.price = new DisplayMoney(25);
         this.market = new Market(this);
         this.unsold = new DisplayInt(0);

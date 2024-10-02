@@ -3,10 +3,10 @@ import { button, br } from "../../common/elements.js";
 
 export class Wire {
 
-    constructor() {
-        this.purchaseLength = 1000;
+    constructor(init) {
+        this.purchaseLength = init.purchaseLength;
         this.length = new DisplayInt(this.purchaseLength);
-        this.cost = new DisplayMoney(100);
+        this.cost = new DisplayMoney(init.cost);
         this.button = null;
     }
 

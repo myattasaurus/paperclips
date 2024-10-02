@@ -17,7 +17,7 @@ export class DisplayInt {
     }
 
     toString() {
-        return this.#value;
+        return Math.floor(this.#value);
     }
 }
 

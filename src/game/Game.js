@@ -10,22 +10,22 @@ import { ClipsPerSecond } from "./manufacturing/ClipsPerSecond.js";
 import { Wire } from './manufacturing/Wire.js';
 
 export class Game {
-    constructor() {
+    constructor(init) {
         this.engine = new Engine();
 
-        this.business = new Business();
+        this.business = new Business(init.business);
 
         this.paperclips = new Paperclips();
         this.clipsPerSecond = new ClipsPerSecond(this.paperclips);
         this.engine.add(this.clipsPerSecond.interval);
 
         this.manufacturing = new Manufacturing();
-        this.wire = new Wire();
+        this.wire = new Wire(init.wire);
         this.engine.onEveryFrame(() => {
             this.wire.enableOrDisablePurchase(this.business.funds.value);
         });
 
-        this.autoclippers = new Autoclippers();
+        this.autoclippers = new Autoclippers(init.autoclippers);
         this.engine.onEveryFrame(() => {
             this.autoclippers.enableOrDisablePurchase(this.business.funds.value);
         });
@@ -52,8 +52,8 @@ export class Game {
     buyFirstAutoclipper() {
         this.buyAutoclipper();
         this.autoclippers.button.onclick = () => this.buyAutoclipper();
-        this.autoclippers.interval.update = () => {
-            this.makePaperclip();
+        this.autoclippers.interval.update = (millisSinceLastInterval) => {
+            this.makePaperclip(this.autoclippers.clipsMadeInTheLastInterval(millisSinceLastInterval));
         };
         this.engine.add(this.autoclippers.interval);
     }

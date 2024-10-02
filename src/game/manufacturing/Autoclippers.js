@@ -4,11 +4,10 @@ import { Interval } from "../../common/Interval.js"
 
 export class Autoclippers {
 
-
     #initialCost = 500;
 
-    constructor() {
-        this.count = new DisplayInt(0);
+    constructor(init) {
+        this.count = new DisplayInt(init.count);
         this.cost = new DisplayMoney(this.#initialCost);
         this.interval = new Interval(1000);
         this.button = null;
@@ -18,8 +17,6 @@ export class Autoclippers {
         this.count.value++;
         this.cost.value = Math.round(Math.pow(1.1, this.count.value) * 100 + this.#initialCost);
 
-        let clips = 1;
-        // TODO calculate clips
         this.interval.frequency = 1000 / this.count.value;
     }
 
@@ -27,6 +24,10 @@ export class Autoclippers {
         if (this.button) {
             this.button.disabled = businessFunds < this.cost.value;
         }
+    }
+
+    clipsMadeInTheLastInterval(millis) {
+        return this.count.value * millis / 1000;
     }
 
     show(game) {
