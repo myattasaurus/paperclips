@@ -21,6 +21,9 @@ export class Game {
 
         this.manufacturing = new Manufacturing();
         this.wire = new Wire();
+        this.engine.onEveryFrame(() => {
+            this.wire.enableOrDisablePurchase(this.business.funds.value);
+        });
 
         this.autoclippers = new Autoclippers();
         this.engine.onEveryFrame(() => {
