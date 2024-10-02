@@ -7,6 +7,7 @@ import { Autoclippers } from './Autoclippers.js';
 import { Time } from '../common/Time.js';
 import { Paperclips } from './Paperclips.js';
 import { ClipsPerSecond } from "./ClipsPerSecond.js";
+import { Wire } from './Wire.js';
 
 export class Game {
     constructor() {
@@ -19,6 +20,7 @@ export class Game {
         this.engine.add(this.clipsPerSecond.interval);
 
         this.manufacturing = new Manufacturing();
+        this.wire = new Wire();
 
         this.autoclippers = new Autoclippers();
         this.engine.onEveryFrame(() => {
@@ -36,15 +38,12 @@ export class Game {
     }
 
     makePaperclip(clips = 1) {
-        if (this.manufacturing.wire.value > 0) {
-            this.manufacturing.wire.value -= clips;
+        if (this.wire.length.value > 0) {
+            clips = Math.min(clips, this.wire.length.value);
+            this.wire.length.value -= clips;
             this.paperclips.value += clips;
             this.business.unsold.value += clips;
         }
-    }
-
-    buyWire() {
-        this.business.buy(this.manufacturing.wireCost.value, () => this.manufacturing.addWire());
     }
 
     buyFirstAutoclipper() {
@@ -57,9 +56,7 @@ export class Game {
     }
 
     buyAutoclipper() {
-        this.business.buy(this.autoclippers.cost, () => {
-            this.autoclippers.increment();
-        });
+        this.business.buy(this.autoclippers);
     }
 
     show() {
@@ -67,7 +64,7 @@ export class Game {
 
         ppcs.append(
             button('show', () => {
-                this.manufacturing.show(this, this.clipsPerSecond);
+                this.manufacturing.show(this.business, this.clipsPerSecond, this.wire);
                 this.autoclippers.show(this);
             })
         );

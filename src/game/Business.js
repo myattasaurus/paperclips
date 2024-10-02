@@ -12,10 +12,10 @@ export class Business {
         this.unsold = new DisplayInt(0);
     }
 
-    buy(cost, callback) {
-        if (cost <= this.funds.value) {
-            this.funds.value -= cost;
-            callback();
+    buy(anything) {
+        if (anything.cost.value <= this.funds.value) {
+            this.funds.value -= anything.cost.value;
+            anything.purchase();
         }
     }
 
