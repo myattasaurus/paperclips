@@ -1,5 +1,5 @@
-import { DisplayInt, DisplayMoney } from "../common/Display.js";
-import { button, br } from "../common/elements.js";
+import { DisplayInt, DisplayMoney } from "../../common/Display.js";
+import { button, br } from "../../common/elements.js";
 
 export class Wire {
 

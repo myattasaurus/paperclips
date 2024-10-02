@@ -3,11 +3,11 @@ import { Business } from './Business.js'
 import { div, h2, button, body } from '../common/elements.js'
 import { Manufacturing } from './Manufacturing.js';
 import { Engine } from '../common/Engine.js';
-import { Autoclippers } from './Autoclippers.js';
+import { Autoclippers } from './manufacturing/Autoclippers.js';
 import { Time } from '../common/Time.js';
 import { Paperclips } from './Paperclips.js';
-import { ClipsPerSecond } from "./ClipsPerSecond.js";
-import { Wire } from './Wire.js';
+import { ClipsPerSecond } from "./manufacturing/ClipsPerSecond.js";
+import { Wire } from './manufacturing/Wire.js';
 
 export class Game {
     constructor() {

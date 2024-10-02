@@ -1,5 +1,5 @@
-import { DisplayInt } from "../common/Display.js";
-import { Interval } from "../common/Interval.js";
+import { DisplayInt } from "../../common/Display.js";
+import { Interval } from "../../common/Interval.js";
 
 export class ClipsPerSecond {
 

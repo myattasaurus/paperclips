@@ -1,6 +1,6 @@
-import { DisplayInt, DisplayMoney } from "../common/Display.js"
-import { button, br } from "../common/elements.js"
-import { Interval } from "../common/Interval.js"
+import { DisplayInt, DisplayMoney } from "../../common/Display.js"
+import { button, br } from "../../common/elements.js"
+import { Interval } from "../../common/Interval.js"
 
 export class Autoclippers {
 
