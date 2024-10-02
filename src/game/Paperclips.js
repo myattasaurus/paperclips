@@ -1,5 +1,5 @@
 import { DisplayInt } from "../common/Display.js";
-import { div, h2, body, button } from "../common/elements.js"
+import { h2, button } from "../common/elements.js"
 
 export class Paperclips {
 
@@ -11,14 +11,13 @@ export class Paperclips {
     }
 
     show(game) {
-        let ppcs = div('paperclips');
+        let ppcs = document.getElementById('paperclips');
 
         this.button = button('Make a paperclip', () => game.makeFirstPaperclips());
 
         ppcs.append(h2('Paperclips: ', this.#display.element));
         ppcs.append(this.button);
 
-        body().append(ppcs);
         return ppcs;
     }
 

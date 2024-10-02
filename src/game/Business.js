@@ -35,7 +35,7 @@ export class Business {
     }
 
     show() {
-        let bus = div('business');
+        let bus = document.getElementById('business');
 
         bus.append(h3('Business'));
         bus.append(hr());
@@ -47,7 +47,5 @@ export class Business {
         );
         bus.append(' Price per clip: ', this.price.element, br());
         bus.append('Public demand: ', this.market.demand.element, '%', br());
-
-        body().append(bus);
     }
 }

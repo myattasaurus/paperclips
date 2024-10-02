@@ -1,5 +1,5 @@
 import { DisplayInt, DisplayMoney } from "../common/Display.js";
-import { div, h3, hr, button, br, body } from "../common/elements.js";
+import { h3, hr, button, br } from "../common/elements.js";
 
 export class Manufacturing {
 
@@ -15,7 +15,7 @@ export class Manufacturing {
     }
 
     show(game, clipsPerSecond) {
-        let mfc = div('manufacturing');
+        let mfc = document.getElementById('manufacturing');
 
         mfc.append(h3('Manufacturing'), hr());
         clipsPerSecond.show(mfc);
@@ -24,7 +24,6 @@ export class Manufacturing {
         mfc.append('Cost: ', this.wireCost.element);
         mfc.append(br(), br());
 
-        body().append(mfc);
         return mfc;
     }
 }
