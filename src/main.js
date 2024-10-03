@@ -1,5 +1,6 @@
 import { Game } from './game/Game.js';
 import { Controller } from './controller/Controller.js';
+import { State } from './model/State.js';
 
 let devInit = {
     business: {
@@ -28,20 +29,19 @@ let init = {
 }
 
 let dev = {
-    state: {
-        manualclipper: {
-            clipsCreated: 0
-        },
+    manualclipper: {
+        clipsCreated: 0
     },
-    view: {
-        paperclips: {},
-        business: {
-            showWhenClipsReach: 2
-        },
-    }
+    business: {
+        showWhenClipsReach: 2,
+        funds: 0,
+        price: 25,
+        sold: 0,
+        marketDemand: 100
+    },
 }
 
 // let game = new Game(devInit);
 // game.show();
 
-new Controller(dev);
+new Controller(new State(dev));

@@ -2,13 +2,13 @@ import { Button, DisplayInt } from "../common/Display.js";
 
 export class Paperclips {
     constructor(paperclips, manualclipper, business) {
-        this.view = paperclips;
-        this.view.show = true;
+        this.state = paperclips;
+        this.state.show = true;
 
         this.manualclipper = manualclipper;
         this.business = business;
 
-        this.count = new DisplayInt(this.view.count);
+        this.count = new DisplayInt(this.state.count);
         this.button = new Button('Make a paperclip', () => this.#makeFirstPaperclips());
     }
 
@@ -16,6 +16,7 @@ export class Paperclips {
         this.#makeAPaperclip();
         if (this.manualclipper.clipsCreated >= this.business.showWhenClipsReach) {
             this.business.show = true;
+            console.log(this.business);
             this.button.onclick = () => this.#makeAPaperclip();
         }
     }
@@ -25,11 +26,11 @@ export class Paperclips {
     }
 
     update(timestamp) {
-        this.view.count = this.manualclipper.clipsCreated;
+
     }
 
     draw() {
-        this.count.value = this.view.count;
+        this.count.value = this.state.count;
     }
 
     show() {
