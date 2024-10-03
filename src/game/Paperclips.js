@@ -13,6 +13,7 @@ export class Paperclips {
     #display;
 
     constructor() {
+        this.manualCount = 0;
         this.#display = new DisplayInt(0);
         this.button = null;
     }
@@ -26,6 +27,10 @@ export class Paperclips {
         ppcs.append(this.button);
 
         return ppcs;
+    }
+
+    draw(state) {
+        this.#display.value = state;
     }
 
     get value() {

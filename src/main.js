@@ -1,5 +1,5 @@
-import { Game } from '/src/game/Game.js'
-
+import { Game } from './game/Game.js';
+import { Controller } from './controller/Controller.js';
 
 let devInit = {
     business: {
@@ -27,5 +27,21 @@ let init = {
     }
 }
 
-export const game = new Game(devInit);
-game.show();
+let dev = {
+    state: {
+        manualclipper: {
+            clipsCreated: 0
+        },
+    },
+    view: {
+        paperclips: {},
+        business: {
+            showWhenClipsReach: 2
+        },
+    }
+}
+
+// let game = new Game(devInit);
+// game.show();
+
+new Controller(dev);

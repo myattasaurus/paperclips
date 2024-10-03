@@ -32,3 +32,21 @@ export class DisplayMoney extends DisplayInt {
         return `$${dollars}.${cents < 10 ? '0' : ''}${cents}`;
     }
 }
+
+export class Button {
+    constructor(text, onclick) {
+        this.element = document.createElement('button');
+        this.element.innerHTML = text;
+        if (onclick) {
+            this.onclick = onclick;
+        }
+    }
+
+    get onclick() {
+        return this.element.onclick;
+    }
+
+    set onclick(onclick) {
+        this.element.onclick = onclick;
+    }
+}
