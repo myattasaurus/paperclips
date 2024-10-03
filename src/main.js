@@ -10,7 +10,7 @@ let devInit = {
         cost: 100
     },
     autoclippers: {
-        count: 10002
+        count: 0
     }
 }
 

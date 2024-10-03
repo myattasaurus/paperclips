@@ -7,6 +7,8 @@ export class Autoclippers {
     #initialCost = 500;
 
     constructor(init) {
+        this.baselineClips = 0;
+        this.baselineTimestamp = Date.now();
         this.count = new DisplayInt(init.count);
         this.cost = new DisplayMoney(this.#initialCost);
         this.interval = new Interval(1000);

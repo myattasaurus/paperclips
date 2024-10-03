@@ -9,8 +9,10 @@ export class ClipsPerSecond {
 
     constructor(paperclips) {
         this.interval = new Interval(1000, (millisSinceLastInterval) => {
+            console.log(millisSinceLastInterval);
             let current = paperclips.value;
             this.#value.value = Math.round((current - this.#previous) * 1000 / millisSinceLastInterval);
+            console.log(current + ', ' + this.#previous + ', ' + this.#value.value);
             this.#previous = current;
         });
     }

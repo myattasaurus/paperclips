@@ -3,6 +3,13 @@ import { h2, button } from "../common/elements.js"
 
 export class Paperclips {
 
+    // TODO
+    // manual amount
+    //
+    // baseline autoclipper amount
+    // baseline autoclipper timestamp
+    // number of autoclippers
+
     #display;
 
     constructor() {
