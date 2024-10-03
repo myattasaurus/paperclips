@@ -30,15 +30,18 @@ let init = {
 
 let dev = {
     manualclipper: {
-        clipsCreated: 0
+        clipsCreated: 0,
     },
     business: {
         showWhenClipsReach: 2,
         funds: 0,
         price: 25,
         sold: 0,
-        marketDemand: 100
+        marketDemand: 100,
     },
+    manufacturing: {
+        showWhenFundsReach: 300,
+    }
 }
 
 // let game = new Game(devInit);

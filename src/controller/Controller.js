@@ -1,4 +1,5 @@
 import { Business } from "./Business.js";
+import { Manufacturing } from "./Manufacturing.js";
 import { Paperclips } from "./Paperclips.js";
 
 export class Controller {
@@ -8,6 +9,7 @@ export class Controller {
         this.drawables = [
             new Paperclips(game.paperclips, game.manualclipper, game.business),
             new Business(game.business),
+            new Manufacturing(game.manufacturing, game.business),
         ];
 
         requestAnimationFrame((t) => this.gameLoop(t));
