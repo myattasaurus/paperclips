@@ -41,6 +41,11 @@ let dev = {
     },
     manufacturing: {
         showWhenFundsReach: 300,
+        wire: {
+            purchaseLength: 1000,
+            cost: 100,
+            inches: 1000,
+        }
     }
 }
 

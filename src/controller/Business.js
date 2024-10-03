@@ -3,7 +3,7 @@ import { Interval2 } from "../common/Interval2.js";
 
 export class Business {
 
-    constructor(state) {
+    constructor(state, manualclipper) {
         this.state = state;
 
         this.funds = new DisplayMoney(state.funds);
@@ -15,6 +15,13 @@ export class Business {
         this.raiseButton = new Button('raise', () => this.#raisePrice());
 
         this.sellInterval = new Interval2(500, () => this.#sell());
+
+        this.update = (timestamp) => {
+            if (manualclipper.clipsCreated >= this.state.showWhenClipsReach) {
+                this.state.show = true;
+                this.update = this.#update;
+            }
+        };
     }
 
     #lowerPrice() {
@@ -32,7 +39,7 @@ export class Business {
         }
     }
 
-    update(timestamp) {
+    #update(timestamp) {
         this.sellInterval.tick(timestamp);
     }
 

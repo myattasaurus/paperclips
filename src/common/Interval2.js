@@ -8,8 +8,9 @@ export class Interval2 {
     }
 
     #firstTick(timestamp) {
-        this.previousTimestamp = timestamp;
+        this.previousTimestamp = timestamp - this.time;
         this.tick = this.#subsequentTicks;
+        this.tick(timestamp);
     }
 
     #subsequentTicks(timestamp) {

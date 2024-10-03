@@ -28,5 +28,7 @@ export class Manufacturing {
         h3.innerHTML = 'Manufacturing';
         mfc.append(h3);
         mfc.append(document.createElement('hr'));
+
+        this.state.wire.show = true;
     }
 }

@@ -2,7 +2,7 @@ export class Paperclips {
 
     #manualclipper;
 
-    constructor(manualclipper) {
+    constructor(manualclipper, wire) {
         this.#manualclipper = manualclipper;
     }
 
