@@ -17,7 +17,7 @@ export class DisplayInt {
     }
 
     toString() {
-        return Math.floor(this.#value);
+        return commas(Math.floor(this.#value));
     }
 }
 
@@ -27,7 +27,7 @@ export class DisplayMoney extends DisplayInt {
     }
 
     toString() {
-        let dollars = Math.floor(this.value / 100);
+        let dollars = commas(Math.floor(this.value / 100));
         let cents = this.value % 100;
         return `$${dollars}.${cents < 10 ? '0' : ''}${cents}`;
     }
@@ -53,4 +53,16 @@ export class Button {
     set enabled(enabled) {
         this.element.disabled = !enabled;
     }
+}
+
+function commas(number) {
+    let str = number.toString();
+    let formatted = '';
+    while (str.length > 3) {
+        let back3Digits = str.substring(str.length - 3);
+        formatted = ',' + back3Digits + formatted;
+        str = str.substring(0, str.length - 3);
+    }
+    formatted = str + formatted;
+    return formatted;
 }

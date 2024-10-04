@@ -5,11 +5,11 @@ let dev = {
         count: 0,
     },
     business: {
-        showWhenClipsReach: 2,
+        showWhenClipsReach: 10,
         funds: 0,
-        price: 1000,
+        price: 25,
         unsold: 0,
-        marketDemand: 100,
+        marketDemand: 32,
     },
     manufacturing: {
         showWhenFundsReach: 300,
@@ -19,10 +19,10 @@ let dev = {
         wire: {
             purchaseLength: 1000,
             cost: 100,
-            inches: 10000000,
+            inches: 1000,
         },
         autoclippers: {
-            count: 10000,
+            count: 0,
             cost: 500
         }
     }
