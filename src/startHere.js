@@ -18,7 +18,13 @@ let dev = {
         },
         wire: {
             purchaseLength: 1000,
-            cost: 100,
+            cost: 1500,
+            price: {
+                lowerBound: 15,
+                upperBound: 27,
+                minChangeTime: 5000,
+                maxChangeTime: 9000,
+            },
             inches: 1000,
         },
         autoclippers: {

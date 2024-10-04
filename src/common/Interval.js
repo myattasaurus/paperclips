@@ -1,9 +1,11 @@
 export class Interval {
+
     constructor(time, run) {
         this.time = time;
-        this.previousTimestamp = 0;
-        this.remainder = 0;
         this.run = run;
+
+        this.remainder = 0;
+        this.previousTimestamp = 0;
         this.tick = this.#firstTick;
     }
 
@@ -16,9 +18,9 @@ export class Interval {
     #subsequentTicks(timestamp) {
         let duration = timestamp - this.previousTimestamp;
         if (duration >= this.time - this.remainder) {
-            this.run(duration);
             this.remainder += duration - this.time;
             this.previousTimestamp = timestamp;
+            this.run(duration);
         }
     }
 }

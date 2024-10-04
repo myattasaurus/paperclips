@@ -28,7 +28,7 @@ export class DisplayMoney extends DisplayInt {
 
     toString() {
         let dollars = commas(Math.floor(this.value / 100));
-        let cents = this.value % 100;
+        let cents = Math.floor(this.value % 100);
         return `$${dollars}.${cents < 10 ? '0' : ''}${cents}`;
     }
 }
