@@ -19,7 +19,7 @@ let dev = {
         wire: {
             purchaseLength: 1000,
             cost: 100,
-            inches: 3,
+            inches: 10000000,
         },
         autoclippers: {
             count: 0,
