@@ -1,28 +1,24 @@
 export class Interval {
-
-    #GAME_INTERVAL = 16 + (2 / 3);
-
-    #previousTimestamp = 0;
-    #frequency;
-
-    constructor(frequency, update = (m) => { }) {
-        this.frequency = frequency;
-        this.update = update;
+    constructor(time, run) {
+        this.time = time;
+        this.previousTimestamp = 0;
+        this.remainder = 0;
+        this.run = run;
+        this.tick = this.#firstTick;
     }
 
-    run(timestamp) {
-        let millisSinceLastInterval = timestamp - this.#previousTimestamp;
-        if (millisSinceLastInterval > this.frequency) {
-            this.update(millisSinceLastInterval);
-            this.#previousTimestamp = timestamp;
+    #firstTick(timestamp) {
+        this.previousTimestamp = timestamp - this.time;
+        this.tick = this.#subsequentTicks;
+        this.tick(timestamp);
+    }
+
+    #subsequentTicks(timestamp) {
+        let duration = timestamp - this.previousTimestamp;
+        if (duration >= this.time - this.remainder) {
+            this.run(duration);
+            this.remainder += duration - this.time;
+            this.previousTimestamp = timestamp;
         }
-    }
-
-    get frequency() {
-        return this.#frequency;
-    }
-
-    set frequency(frequency) {
-        this.#frequency = Math.max(frequency, this.#GAME_INTERVAL);
     }
 }

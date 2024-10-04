@@ -1,3 +1,5 @@
+import { div, h3, hr } from "../common/elements.js";
+
 export class Manufacturing {
     constructor(state, business) {
         this.state = state;
@@ -25,11 +27,9 @@ export class Manufacturing {
     }
 
     show() {
-        let mfc = document.getElementById('manufacturing');
+        let mfc = div('manufacturing');
 
-        let h3 = document.createElement('h3');
-        h3.innerHTML = 'Manufacturing';
-        mfc.append(h3);
-        mfc.append(document.createElement('hr'));
+        mfc.append(h3('Manufacturing'));
+        mfc.append(hr());
     }
 }

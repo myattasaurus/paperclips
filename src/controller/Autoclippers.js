@@ -1,4 +1,5 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
+import { div, br } from "../common/elements.js";
 
 export class Autoclippers {
 
@@ -33,13 +34,9 @@ export class Autoclippers {
     }
 
     show() {
-        let mfc = document.getElementById('autoclippers');
+        let mfc = div('autoclippers');
 
         mfc.append(this.button.element, ' ', this.count.element, br());
         mfc.append('Cost: ', this.cost.element);
     }
-}
-
-function br() {
-    return document.createElement('br');
 }

@@ -1,5 +1,6 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
-import { Interval2 } from "../common/Interval2.js";
+import { Interval } from "../common/Interval.js";
+import { div, h3, hr, br } from "../common/elements.js";
 
 export class Business {
 
@@ -14,7 +15,7 @@ export class Business {
         this.lowerButton = new Button('lower', () => this.#lowerPrice());
         this.raiseButton = new Button('raise', () => this.#raisePrice());
 
-        this.sellInterval = new Interval2(500, () => this.#sell());
+        this.sellInterval = new Interval(500, () => this.#sell());
 
         this.update = (timestamp) => {
             if (paperclips.count >= this.state.showWhenClipsReach) {
@@ -51,20 +52,14 @@ export class Business {
     }
 
     show() {
-        let bus = document.getElementById('business');
+        let bus = div('business');
 
-        let h3 = document.createElement('h3');
-        h3.append('Business');
-        bus.append(h3);
-        bus.append(document.createElement('hr'));
+        bus.append(h3('Business'));
+        bus.append(hr());
 
         bus.append('Available funds: ', this.funds.element, br());
         bus.append('Unsold inventory: ', this.unsold.element, br());
         bus.append(this.lowerButton.element, this.raiseButton.element, ' Price per clip: ', this.price.element, br());
         bus.append('Public demand: ', this.marketDemand.element, '%', br());
     }
-}
-
-function br() {
-    return document.createElement('br');
 }

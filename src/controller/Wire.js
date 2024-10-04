@@ -1,4 +1,5 @@
 import { DisplayInt, DisplayMoney, Button } from "../common/Display.js";
+import { div, br } from "../common/elements.js";
 
 export class Wire {
     constructor(state, business, autoclippers) {
@@ -28,13 +29,9 @@ export class Wire {
     }
 
     show() {
-        let mfc = document.getElementById('wire');
+        let mfc = div('wire');
 
         mfc.append(this.button.element, ' ', this.inches.element, ' inches', br());
         mfc.append('Cost: ', this.cost.element, br(), br());
     }
-}
-
-function br() {
-    return document.createElement('br');
 }

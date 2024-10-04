@@ -1,5 +1,6 @@
 import { Button, DisplayInt } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
+import { div, h2 } from "../common/elements.js";
 
 export class Paperclips {
     constructor(state, business, wire, autoclippers) {
@@ -45,12 +46,9 @@ export class Paperclips {
     }
 
     show() {
-        let ppcs = document.getElementById('paperclips');
+        let ppcs = div('paperclips');
 
-        let h2 = document.createElement('h2');
-        h2.append('Paperclips: ', this.count.element);
-
-        ppcs.append(h2);
+        ppcs.append(h2('Paperclips: ', this.count.element));
         ppcs.append(this.button.element);
     }
 }

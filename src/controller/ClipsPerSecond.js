@@ -1,7 +1,6 @@
 import { DisplayInt } from "../common/Display.js";
-import { Frame } from "../common/Frame.js";
-import { Interval2 } from "../common/Interval2.js";
-
+import { Interval } from "../common/Interval.js";
+import { div, br } from "../common/elements.js";
 export class ClipsPerSecond {
 
     #previousPaperclipCount = 0;
@@ -13,7 +12,7 @@ export class ClipsPerSecond {
 
         this.count = new DisplayInt(state.count);
 
-        this.frame = new Interval2(1000, (duration) => this.#calculate(duration));
+        this.frame = new Interval(1000, (duration) => this.#calculate(duration));
     }
 
     #calculate(duration) {
@@ -32,12 +31,8 @@ export class ClipsPerSecond {
     }
 
     show() {
-        let cps = document.getElementById('clipsPerSecond');
+        let cps = div('clipsPerSecond');
 
         cps.append('Clips per second: ', this.count.element, br(), br());
     }
-}
-
-function br() {
-    return document.createElement('br');
 }

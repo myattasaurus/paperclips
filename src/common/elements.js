@@ -5,8 +5,7 @@ export function h2(...elements) {
 }
 
 export function div(id) {
-    let element = document.createElement('div');
-    element.setAttribute('id', id);
+    let element = document.getElementById(id);
     return element;
 }
 
