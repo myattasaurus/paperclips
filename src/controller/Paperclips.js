@@ -3,6 +3,9 @@ import { Frame } from "../common/Frame.js";
 import { div, h2 } from "../common/elements.js";
 
 export class Paperclips {
+
+    #autoclipperDuration = 0;
+
     constructor(state, business, wire, autoclippers) {
         this.state = state;
         this.state.show = true;
@@ -32,8 +35,15 @@ export class Paperclips {
     }
 
     #makeByAutoclipper(duration) {
-        let number = this.autoclippers.count * duration / 1000;
-        this.#make(number);
+        if (this.autoclippers.count > 0) {
+            this.#autoclipperDuration += duration;
+        }
+        let durationPerClip = 1000 / this.autoclippers.count;
+        if (this.#autoclipperDuration > durationPerClip) {
+            let number = Math.floor(this.#autoclipperDuration / durationPerClip);
+            this.#autoclipperDuration -= number * durationPerClip;
+            this.#make(number);
+        }
     }
 
     update(timestamp) {
