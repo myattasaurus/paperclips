@@ -13,7 +13,10 @@ export class DisplayInt {
 
     set value(text) {
         this.#value = text;
-        this.element.innerHTML = this.toString();
+        let str = this.toString();
+        if (str != this.element.innerHTML) {
+            this.element.innerHTML = str;
+        }
     }
 
     toString() {
