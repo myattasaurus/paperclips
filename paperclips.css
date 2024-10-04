@@ -9,3 +9,8 @@ h3 {
 hr {
     margin: 0 0 0.5em 0;
 }
+
+footer {
+    position: absolute;
+    bottom: 0;
+}
