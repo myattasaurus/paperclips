@@ -1,12 +1,11 @@
 import { Button, DisplayInt } from "../common/Display.js";
 
 export class Paperclips {
-    constructor(paperclips, manualclipper, business, wire) {
+    constructor(paperclips, manualclipper, wire) {
         this.state = paperclips;
         this.state.show = true;
 
         this.manualclipper = manualclipper;
-        this.business = business;
         this.wire = wire;
 
         this.count = new DisplayInt(this.state.count);

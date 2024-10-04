@@ -1,3 +1,4 @@
+import { Autoclippers } from "./Autoclippers.js";
 import { Business } from "./Business.js";
 import { Manufacturing } from "./Manufacturing.js";
 import { Paperclips } from "./Paperclips.js";
@@ -8,10 +9,11 @@ export class Controller {
         this.game = game;
 
         this.drawables = [
-            new Paperclips(game.paperclips, game.manualclipper, game.business, game.manufacturing.wire),
+            new Paperclips(game.paperclips, game.manualclipper, game.manufacturing.wire),
             new Business(game.business, game.manualclipper),
             new Manufacturing(game.manufacturing, game.business),
-            new Wire(game.manufacturing.wire, game.business),
+            new Wire(game.manufacturing.wire, game.business, game.manufacturing.autoclippers),
+            new Autoclippers(game.manufacturing.autoclippers, game.business),
         ];
 
         requestAnimationFrame((t) => this.gameLoop(t));

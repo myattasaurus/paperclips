@@ -35,7 +35,7 @@ let dev = {
     business: {
         showWhenClipsReach: 2,
         funds: 0,
-        price: 25,
+        price: 1000,
         sold: 0,
         marketDemand: 100,
     },
@@ -45,6 +45,10 @@ let dev = {
             purchaseLength: 1000,
             cost: 100,
             inches: 1000,
+        },
+        autoclippers: {
+            count: 0,
+            cost: 500
         }
     }
 }

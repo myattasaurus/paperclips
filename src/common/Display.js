@@ -49,4 +49,8 @@ export class Button {
     set onclick(onclick) {
         this.element.onclick = onclick;
     }
+
+    set enabled(enabled) {
+        this.element.disabled = !enabled;
+    }
 }

@@ -1,9 +1,10 @@
 import { DisplayInt, DisplayMoney, Button } from "../common/Display.js";
 
 export class Wire {
-    constructor(state, business) {
+    constructor(state, business, autoclippers) {
         this.state = state;
         this.business = business;
+        this.autoclippers = autoclippers;
 
         this.inches = new DisplayInt(this.state.inches);
         this.cost = new DisplayMoney(this.state.cost);
@@ -18,7 +19,7 @@ export class Wire {
     }
 
     update(timestamp) {
-
+        this.button.enabled = this.business.funds >= this.state.cost;
     }
 
     draw() {
@@ -30,7 +31,9 @@ export class Wire {
         let mfc = document.getElementById('manufacturing');
 
         mfc.append(this.button.element, ' ', this.inches.element, ' inches', br());
-        mfc.append('Cost: ', this.cost.element);
+        mfc.append('Cost: ', this.cost.element, br(), br());
+
+        this.autoclippers.show = true;
     }
 }
 
