@@ -9,7 +9,7 @@ export class Controller {
         this.game = game;
 
         this.drawables = [
-            new Paperclips(game.paperclips, game.manufacturing.wire),
+            new Paperclips(game.paperclips, game.business, game.manufacturing.wire, game.manufacturing.autoclippers),
             new Business(game.business, game.paperclips),
             new Manufacturing(game.manufacturing, game.business),
             new Wire(game.manufacturing.wire, game.business),

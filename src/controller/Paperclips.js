@@ -1,25 +1,43 @@
 import { Button, DisplayInt } from "../common/Display.js";
+import { Frame } from "../common/Frame.js";
 
 export class Paperclips {
-    constructor(state, wire) {
+    constructor(state, business, wire, autoclippers) {
         this.state = state;
         this.state.show = true;
 
+        this.business = business;
         this.wire = wire;
+        this.autoclippers = autoclippers;
 
         this.count = new DisplayInt(this.state.count);
-        this.button = new Button('Make a paperclip', () => this.#makeAPaperclip());
+        this.button = new Button('Make a paperclip', () => this.#make());
+
+        this.autoclipperInterval = new Frame((duration) => this.#makeByAutoclipper(duration));
     }
 
-    #makeAPaperclip() {
+    #make(number = 1) {
         if (this.wire.inches > 0) {
-            this.wire.inches--;
-            this.state.count++;
+            if (number > this.wire.inches) {
+                this.state.count += this.wire.inches;
+                this.business.unsold += this.wire.inches;
+                this.wire.inches = 0;
+            } else {
+                this.wire.inches -= number;
+                this.state.count += number;
+                this.business.unsold += number;
+            }
         }
     }
 
-    update(timestamp) {
+    #makeByAutoclipper(duration) {
+        let number = this.autoclippers.count * duration / 1000;
+        this.#make(number);
+    }
 
+    update(timestamp) {
+        this.button.enabled = this.wire.inches > 0;
+        this.autoclipperInterval.tick(timestamp);
     }
 
     draw() {

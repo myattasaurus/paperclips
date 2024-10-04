@@ -33,9 +33,9 @@ export class Business {
     }
 
     #sell() {
-        if (this.state.unsold > 0) {
+        if (this.state.unsold >= 1) {
             this.state.funds += this.state.price;
-            this.state.sold++;
+            this.state.unsold--;
         }
     }
 
