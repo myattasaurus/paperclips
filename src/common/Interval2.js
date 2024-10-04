@@ -14,10 +14,10 @@ export class Interval2 {
     }
 
     #subsequentTicks(timestamp) {
-        let elapsed = timestamp - this.previousTimestamp;
-        if (elapsed >= this.time - this.remainder) {
-            this.run();
-            this.remainder += elapsed - this.time;
+        let duration = timestamp - this.previousTimestamp;
+        if (duration >= this.time - this.remainder) {
+            this.run(duration);
+            this.remainder += duration - this.time;
             this.previousTimestamp = timestamp;
         }
     }

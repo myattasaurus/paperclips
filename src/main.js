@@ -22,7 +22,7 @@ let dev = {
             inches: 10000000,
         },
         autoclippers: {
-            count: 0,
+            count: 10000,
             cost: 500
         }
     }

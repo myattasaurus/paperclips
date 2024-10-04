@@ -1,5 +1,6 @@
 import { DisplayInt } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
+import { Interval2 } from "../common/Interval2.js";
 
 export class ClipsPerSecond {
 
@@ -12,7 +13,7 @@ export class ClipsPerSecond {
 
         this.count = new DisplayInt(state.count);
 
-        this.frame = new Frame((duration) => this.#calculate(duration));
+        this.frame = new Interval2(1000, (duration) => this.#calculate(duration));
     }
 
     #calculate(duration) {
