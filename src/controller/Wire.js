@@ -28,12 +28,10 @@ export class Wire {
     }
 
     show() {
-        let mfc = document.getElementById('manufacturing');
+        let mfc = document.getElementById('wire');
 
         mfc.append(this.button.element, ' ', this.inches.element, ' inches', br());
         mfc.append('Cost: ', this.cost.element, br(), br());
-
-        this.autoclippers.show = true;
     }
 }
 

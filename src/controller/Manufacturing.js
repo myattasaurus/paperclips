@@ -9,6 +9,8 @@ export class Manufacturing {
     #showIfApplicable(timestamp) {
         if (this.business.funds >= this.state.showWhenFundsReach) {
             this.state.show = true;
+            this.state.wire.show = true;
+            this.state.autoclippers.show = true;
             this.update = this.#update;
         }
     }
@@ -28,7 +30,5 @@ export class Manufacturing {
         h3.innerHTML = 'Manufacturing';
         mfc.append(h3);
         mfc.append(document.createElement('hr'));
-
-        this.state.wire.show = true;
     }
 }

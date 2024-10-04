@@ -29,8 +29,8 @@ let init = {
 }
 
 let dev = {
-    manualclipper: {
-        clipsCreated: 0,
+    paperclips: {
+        count: 0,
     },
     business: {
         showWhenClipsReach: 2,

@@ -33,7 +33,7 @@ export class Autoclippers {
     }
 
     show() {
-        let mfc = document.getElementById('manufacturing');
+        let mfc = document.getElementById('autoclippers');
 
         mfc.append(this.button.element, ' ', this.count.element, br());
         mfc.append('Cost: ', this.cost.element);
