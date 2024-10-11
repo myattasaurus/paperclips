@@ -1,4 +1,4 @@
-import { Button, DisplayInt } from "../common/Display.js";
+import { Button, DisplayInt, Paperclip } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
 import { div, h2 } from "../common/elements.js";
 
@@ -15,7 +15,10 @@ export class Paperclips {
         this.autoclippers = autoclippers;
 
         this.count = new DisplayInt(this.state.count);
-        this.button = new Button('Make a paperclip', () => this.#make());
+        this.button = new Button('Make a paperclip', () => {
+            this.#make();
+            new Paperclip(this.button.element).animate();
+        });
 
         this.autoclipperInterval = new Frame((duration) => this.#makeByAutoclipper(duration));
     }
