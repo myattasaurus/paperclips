@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="canvas.css" />
+    <script src="canvas.js"></script>
+</head>
+
+<body onload="onLoad()" onresize="draw()" role="presentation">
+    <canvas id="canvas"></canvas>
+    <div id="dontainer">
+        <label for="height">Height</label>
+        <input id="height" name="height" type="number" value="8" min="0" onchange="draw()" />
+        <label for="width1">Width</label>
+        <input id="width1" name="width1" type="number" value="17" min="0" onchange="draw()" />
+        <input id="width2" name="width2" type="number" value="18" min="0" onchange="draw()" />
+        <input id="width3" name="width3" type="number" value="15" min="0" onchange="draw()" />
+        <input id="width4" name="width4" type="number" value="12" min="0" onchange="draw()" />
+        <button onclick="draw()">Rotate</button>
+    </div>
+</body>
+
+</html>
