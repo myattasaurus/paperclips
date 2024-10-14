@@ -113,24 +113,23 @@ class Paperclip {
     }
 }
 
-let paperclip = new Paperclip();
-onLoad();
-
-function onLoad() {
-    requestAnimationFrame(loop);
-}
+let paperclip;
+document.getElementById('spawnButton').onclick = () => paperclip = new Paperclip();
+requestAnimationFrame(loop);
 
 function loop(timestamp) {
-    paperclip.update(timestamp);
+    if (paperclip) {
+        paperclip.update(timestamp);
 
-    let canvas = document.getElementById('canvas');
-    let bodyRect = document.getElementsByTagName('body')[0].getBoundingClientRect();
-    canvas.setAttribute('height', bodyRect.height);
-    canvas.setAttribute('width', bodyRect.width);
-    if (canvas.getContext) {
-        let ctx = canvas.getContext('2d');
+        let canvas = document.getElementById('canvas');
+        let bodyRect = document.getElementsByTagName('body')[0].getBoundingClientRect();
+        canvas.setAttribute('height', bodyRect.height);
+        canvas.setAttribute('width', bodyRect.width);
+        if (canvas.getContext) {
+            let ctx = canvas.getContext('2d');
 
-        paperclip.draw(ctx);
+            paperclip.draw(ctx);
+        }
     }
     requestAnimationFrame(loop);
 }
