@@ -1,3 +1,4 @@
+import { Canvas } from "./src/common/Canvas.js";
 import { Frame } from "./src/common/Frame.js";
 
 class Paperclip {
@@ -5,23 +6,20 @@ class Paperclip {
     static #HALF_PI = Math.PI / 2;
     static #THREE_HALF_PI = 3 * this.#HALF_PI;
 
-    constructor() {
-        this.height = 8;
-        this.length = {
-            inner: {
-                top: 12,
-                bottom: 15
-            },
-            outer: {
-                top: 18,
-                bottom: 17
-            }
-        };
+    static MAX_ROTATIONS_PER_SECOND = 6;
+    static MAX_DX = 500;
+    static MAX_DY = -1000;
 
-        this.rotation = {
-            perSecond: 3,
-            radians: 0
-        };
+    constructor(overwriteDefaults = {}) {
+        this.height = 8;
+
+        this.topInnerLength = 12;
+        this.bottomInnerLength = 15;
+        this.topOuterLength = 18;
+        this.bottomOuterLength = 17;
+
+        this.rotationsPerSecond = 1;
+        this.radians = 0;
 
         this.x = 200;
         this.y = 200;
@@ -29,6 +27,10 @@ class Paperclip {
         this.dxPerSecond = 400;
         this.dyPerSecond = -1000;
         this.ddyPerSecond = 4000;
+
+        for (let key of Object.keys(overwriteDefaults)) {
+            this[key] = overwriteDefaults[key];
+        }
 
         this.frame = new Frame((d) => this.#update(d));
     }
@@ -39,8 +41,8 @@ class Paperclip {
 
     #update(duration) {
         let seconds = duration / 1000;
-        let rotations = this.rotation.perSecond * seconds * Paperclip.#TWO_PI;
-        this.rotation.radians = (this.rotation.radians + rotations) % Paperclip.#TWO_PI;
+        let rotations = this.rotationsPerSecond * seconds * Paperclip.#TWO_PI;
+        this.radians = (this.radians + rotations) % Paperclip.#TWO_PI;
 
         this.x += this.dxPerSecond * seconds;
         this.y += this.dyPerSecond * seconds;
@@ -51,22 +53,14 @@ class Paperclip {
     draw(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(this.rotation.radians);
+        ctx.rotate(this.radians);
         ctx.translate(-this.x, -this.y);
         this.draw2(ctx);
         ctx.restore();
     }
 
     draw2(ctx) {
-        ctx.lineCap = 'round';
-        ctx.lineWidth = 1;
-        ctx.strokeStyle = 'gray';
-
         let height = this.height;
-        let bottomOuterLength = this.length.outer.bottom;
-        let topOuterLength = this.length.outer.top;
-        let bottomInnerLength = this.length.inner.bottom;
-        let topInnerLength = this.length.inner.top;
 
         let x = this.x;
         let y = this.y;
@@ -74,20 +68,20 @@ class Paperclip {
         ctx.beginPath();
 
         // locate starting point from center (tip of bottom outer length)
-        let width = height - 1 + topOuterLength;
+        let width = height - 1 + this.topOuterLength;
         let radius = height / 2;
-        x += radius + bottomOuterLength - width / 2;
+        x += radius + this.bottomOuterLength - width / 2;
         y += height / 2;
         ctx.moveTo(x, y);
 
-        x -= bottomOuterLength;
+        x -= this.bottomOuterLength;
         ctx.lineTo(x, y);
 
         let centerX = x;
         let centerY = y - radius;
         ctx.arc(centerX, centerY, radius, Paperclip.#HALF_PI, Paperclip.#THREE_HALF_PI, false);
 
-        x += topOuterLength;
+        x += this.topOuterLength;
         y -= height;
         ctx.lineTo(x, y);
 
@@ -96,7 +90,7 @@ class Paperclip {
         centerY = y + radius;
         ctx.arc(centerX, centerY, radius, Paperclip.#THREE_HALF_PI, Paperclip.#HALF_PI, false);
 
-        x -= bottomInnerLength;
+        x -= this.bottomInnerLength;
         y += 2 * radius;
         ctx.lineTo(x, y);
 
@@ -105,7 +99,7 @@ class Paperclip {
         centerY = y - radius;
         ctx.arc(centerX, centerY, radius, Paperclip.#HALF_PI, Paperclip.#THREE_HALF_PI, false);
 
-        x += topInnerLength;
+        x += this.topInnerLength;
         y -= 2 * radius;
         ctx.lineTo(x, y);
 
@@ -113,24 +107,64 @@ class Paperclip {
     }
 }
 
-let paperclip;
-document.getElementById('spawnButton').onclick = () => paperclip = new Paperclip();
+export class PaperclipImages {
+    constructor(canvas) {
+        this.paperclips = [];
+        this.canvas = canvas;
+    }
+
+    spawn() {
+        this.paperclips.push(new Paperclip({
+            dxPerSecond: Math.round(Math.random() * Paperclip.MAX_DX),
+            dyPerSecond: Math.round(Math.random() * Paperclip.MAX_DY),
+            rotationsPerSecond: Math.random() * 2 * Paperclip.MAX_ROTATIONS_PER_SECOND - Paperclip.MAX_ROTATIONS_PER_SECOND,
+            radians: Math.random() * 2 * Math.PI,
+        }));
+    }
+
+    despawn(paperclip) {
+        let index = this.paperclips.indexOf(paperclip);
+        if (index > -1) {
+            this.paperclips.splice(index, 1);
+        }
+    }
+
+    update(timestamp) {
+        for (let paperclip of this.paperclips) {
+            paperclip.update(timestamp);
+            if (paperclip.x > canvas.width + 50 || paperclip.y > canvas.height + 50) {
+                this.despawn(paperclip);
+            }
+        }
+    }
+
+    draw(ctx) {
+
+        ctx.lineCap = 'round';
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'gray';
+        ctx.save();
+
+        for (let paperclip of this.paperclips) {
+            paperclip.draw(ctx);
+        }
+        ctx.restore();
+    }
+}
+
+let canvas = new Canvas(document.getElementById('canvas'));
+let paperclips = new PaperclipImages(canvas);
+document.getElementById('spawnButton').onclick = () => paperclips.spawn();
 requestAnimationFrame(loop);
 
 function loop(timestamp) {
-    if (paperclip) {
-        paperclip.update(timestamp);
+    paperclips.update(timestamp);
 
-        let canvas = document.getElementById('canvas');
-        let bodyRect = document.getElementsByTagName('body')[0].getBoundingClientRect();
-        canvas.setAttribute('height', bodyRect.height);
-        canvas.setAttribute('width', bodyRect.width);
-        if (canvas.getContext) {
-            let ctx = canvas.getContext('2d');
-
-            paperclip.draw(ctx);
-        }
-    }
+    canvas.clear();
+    let ctx = canvas.context;
+    ctx.save();
+    paperclips.draw(ctx);
+    ctx.restore();
     requestAnimationFrame(loop);
 }
 
