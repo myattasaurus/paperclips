@@ -74,7 +74,9 @@ class Paperclip {
     static #THREE_HALF_PI = 3 * this.#HALF_PI;
 
     static MAX_ROTATIONS_PER_SECOND = 6;
+    static MIN_DX = -200;
     static MAX_DX = 500;
+    static MIN_DY = -300;
     static MAX_DY = -1000;
 
     constructor(overwriteDefaults = {}) {
@@ -122,11 +124,11 @@ class Paperclip {
         ctx.translate(this.x, this.y);
         ctx.rotate(this.radians);
         ctx.translate(-this.x, -this.y);
-        this.draw2(ctx);
+        this.#draw(ctx);
         ctx.restore();
     }
 
-    draw2(ctx) {
+    #draw(ctx) {
         let height = this.height;
 
         let x = this.x;
@@ -184,8 +186,8 @@ export class PaperclipImages {
         this.paperclips.push(new Paperclip({
             x: x,
             y: y,
-            dxPerSecond: Math.round(Math.random() * Paperclip.MAX_DX),
-            dyPerSecond: Math.round(Math.random() * Paperclip.MAX_DY),
+            dxPerSecond: Math.round(Math.random() * (Paperclip.MAX_DX - Paperclip.MIN_DX) + Paperclip.MIN_DX),
+            dyPerSecond: Math.round(Math.random() * (Paperclip.MAX_DY - Paperclip.MIN_DY) + Paperclip.MIN_DY),
             rotationsPerSecond: Math.random() * 2 * Paperclip.MAX_ROTATIONS_PER_SECOND - Paperclip.MAX_ROTATIONS_PER_SECOND,
             radians: Math.random() * 2 * Math.PI,
         }));
