@@ -1,3 +1,5 @@
+import { Rect } from "./Rect.js";
+
 export class DisplayInt {
 
     #value;
@@ -56,34 +58,9 @@ export class Button {
     set enabled(enabled) {
         this.element.disabled = !enabled;
     }
-}
 
-export class Paperclip {
-    constructor(button) {
-        this.element = document.createElement('img');
-        this.element.setAttribute('src', 'paperclip.svg');
-
-        let style = this.element.style;
-        style.position = 'absolute';
-
-        let rect = button.getBoundingClientRect();
-        let height = rect.height * 0.4;
-
-        style.top = rect.bottom - height + 'px';
-        style.left = rect.right + rect.height + 'px';
-        style.height = height + 'px';
-    }
-
-    async animate() {
-        document.getElementsByTagName('body')[0].append(this.element);
-
-        await this.element.animate([{
-            transform: 'translateY(-' + 30 + 'px)',
-            easing: 'ease-out',
-            offset: 0.7
-        }], 500).finished;
-
-        this.element.remove();
+    get rect() {
+        return new Rect(this.element.getBoundingClientRect());
     }
 }
 
