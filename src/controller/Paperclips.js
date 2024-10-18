@@ -28,8 +28,8 @@ export class Paperclips {
     #make(number = 1) {
         if (this.wire.inches > 0) {
             if (number > this.wire.inches) {
-                this.state.count += this.wire.inches;
-                this.business.unsold += this.wire.inches;
+                this.state.count = Math.round(this.state.count + this.wire.inches);
+                this.business.unsold = Math.round(this.business.unsold + this.wire.inches);
                 this.wire.inches = 0;
             } else {
                 this.wire.inches -= number;
@@ -40,15 +40,7 @@ export class Paperclips {
     }
 
     #makeByAutoclipper(duration) {
-        if (this.autoclippers.count > 0) {
-            this.#autoclipperDuration += duration;
-        }
-        let durationPerClip = 1000 / this.autoclippers.count;
-        if (this.#autoclipperDuration > durationPerClip) {
-            let number = Math.floor(this.#autoclipperDuration / durationPerClip);
-            this.#autoclipperDuration -= number * durationPerClip;
-            this.#make(number);
-        }
+        this.#make(this.autoclippers.count * duration / 1000);
     }
 
     update(timestamp) {
