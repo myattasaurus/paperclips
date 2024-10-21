@@ -12,7 +12,7 @@ export class ClipsPerSecond {
 
         this.count = new DisplayInt(state.count);
 
-        this.frame = new Interval(1000, (duration) => this.#calculate(duration));
+        this.frame = new Interval(1000, (info) => this.#calculate(info.duration));
     }
 
     #calculate(duration) {

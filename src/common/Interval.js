@@ -18,9 +18,12 @@ export class Interval {
         this.remainder += timestamp - this.previousTimestamp;
         this.previousTimestamp = timestamp;
         if (this.remainder >= this.time) {
-            let count = Math.floor(this.remainder / this.time);
+            let info = {
+                cycles: Math.floor(this.remainder / this.time),
+                duration: this.remainder
+            };
             this.remainder %= this.time;
-            this.run(count);
+            this.run(info);
         }
     }
 }

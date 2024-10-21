@@ -15,7 +15,7 @@ export class Business {
         this.lowerButton = new Button('lower', () => this.#lowerPrice());
         this.raiseButton = new Button('raise', () => this.#raisePrice());
 
-        this.sellInterval = new Interval(500, (cycles) => this.#sell(cycles));
+        this.sellInterval = new Interval(500, (info) => this.#sell(info.cycles));
 
         this.update = (timestamp) => {
             if (paperclips.count >= this.state.showWhenClipsReach) {

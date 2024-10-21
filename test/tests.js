@@ -31,7 +31,7 @@ let suites = [
                 description: '"Runs" thrice during slow ticks (simulates user going to another tab)',
                 run: () => {
                     let intervalCount = 0;
-                    let interval = new Interval(500, (count) => intervalCount = count);
+                    let interval = new Interval(500, (ret) => intervalCount = ret.cycles);
                     interval.tick(0);
                     interval.tick(1501);
                     assertThat(intervalCount).equals(3);
@@ -41,7 +41,7 @@ let suites = [
                 description: 'Runs once (edge case)',
                 run: () => {
                     let intervalCount = 0;
-                    let interval = new Interval(500, (count) => intervalCount = count);
+                    let interval = new Interval(500, (ret) => intervalCount = ret.cycles);
                     interval.tick(0);
                     interval.tick(999);
                     assertThat(intervalCount).equals(1);
