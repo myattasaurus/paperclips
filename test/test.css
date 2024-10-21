@@ -1,0 +1,19 @@
+li {
+    padding-left: 10px;
+}
+
+.passed {
+    list-style-type: '\2714';
+}
+
+li.passed::marker {
+    color: green;
+}
+
+.failed {
+    list-style-type: '\2716';
+}
+
+li.failed::marker {
+    color: red;
+}

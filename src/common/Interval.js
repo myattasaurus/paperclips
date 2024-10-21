@@ -1,6 +1,6 @@
 export class Interval {
 
-    constructor(time, run) {
+    constructor(time, run = (duration) => { }) {
         this.time = time;
         this.run = run;
 
