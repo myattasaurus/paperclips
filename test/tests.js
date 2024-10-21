@@ -7,21 +7,44 @@ let suites = [
         name: 'Interval',
         tests: [
             {
-                description: 'Remainder is positive',
+                description: 'Runs twice during fast ticks',
                 run: () => {
-                    let interval = new Interval(500);
-                    interval.tick(1000);
-                    interval.tick(1516);
-                    assertThat(interval.remainder).equals(16);
+                    let runCount = 0;
+                    let interval = new Interval(500, () => {
+                        runCount++;
+                    });
+
+                    interval.tick(0);
+                    interval.tick(100);
+                    interval.tick(200);
+                    interval.tick(510); // should run once
+
+                    interval.tick(610);
+                    interval.tick(710);
+                    interval.tick(810);
+                    interval.tick(1000); // should run again
+
+                    assertThat(runCount).equals(2);
                 }
             },
             {
-                description: 'Remainder is giant',
+                description: '"Runs" thrice during slow ticks (simulates user going to another tab)',
                 run: () => {
-                    let interval = new Interval(500);
-                    interval.tick(1000);
-                    interval.tick(2001500);
-                    assertThat(interval.remainder).equals(2000000);
+                    let intervalCount = 0;
+                    let interval = new Interval(500, (count) => intervalCount = count);
+                    interval.tick(0);
+                    interval.tick(1501);
+                    assertThat(intervalCount).equals(3);
+                }
+            },
+            {
+                description: 'Runs once (edge case)',
+                run: () => {
+                    let intervalCount = 0;
+                    let interval = new Interval(500, (count) => intervalCount = count);
+                    interval.tick(0);
+                    interval.tick(999);
+                    assertThat(intervalCount).equals(1);
                 }
             },
         ]
@@ -39,19 +62,19 @@ for (let suite of suites) {
     boday.append(ul);
 
     for (let test of suite.tests) {
-        let passed = true;
+        let errorMessage = '';
         try {
             test.run();
-        } catch (result) {
-            passed = false;
+        } catch (e) {
+            errorMessage = e;
         }
-        let litem = li(test.description, passed);
+        let litem = li(test.description, errorMessage);
         ul.append(litem);
     }
 }
-function li(text, passed) {
+function li(text, errorMessage) {
     let li = document.createElement('li');
-    li.append(text);
-    li.classList.add(passed ? 'passed' : 'failed');
+    li.append(text, errorMessage);
+    li.classList.add(errorMessage == '' ? 'passed' : 'failed');
     return li;
 }

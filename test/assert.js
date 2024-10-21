@@ -5,7 +5,7 @@ class Assertion {
 
     equals(expected) {
         if (this.actual != expected) {
-            throw false;
+            throw ' [Expected: ' + expected + ', actual: ' + this.actual + ']';
         }
     }
 }
