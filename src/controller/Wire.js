@@ -13,7 +13,7 @@ export class Wire {
         this.cost = new DisplayMoney(this.state.cost);
         this.button = new Button('Wire', () => this.#purchase());
 
-        this.priceFluctuation = new Interval(state.price.maxChangeTime, (duration) => this.#adjustPrice(duration));
+        this.priceFluctuation = new Interval(state.price.maxChangeTime, () => this.#adjustPrice());
     }
 
     #purchase() {
@@ -23,7 +23,7 @@ export class Wire {
         }
     }
 
-    #adjustPrice(duration) {
+    #adjustPrice() {
         let price = this.state.price;
         let changeTimeRange = price.maxChangeTime - price.minChangeTime;
         this.priceFluctuation.time = Math.random() * changeTimeRange + price.minChangeTime;
