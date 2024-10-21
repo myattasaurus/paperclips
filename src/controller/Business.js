@@ -15,7 +15,7 @@ export class Business {
         this.lowerButton = new Button('lower', () => this.#lowerPrice());
         this.raiseButton = new Button('raise', () => this.#raisePrice());
 
-        this.sellInterval = new Interval(500, () => this.#sell());
+        this.sellInterval = new Interval(500, (cycles) => this.#sell(cycles));
 
         this.update = (timestamp) => {
             if (paperclips.count >= this.state.showWhenClipsReach) {
@@ -33,11 +33,10 @@ export class Business {
         this.state.price++;
     }
 
-    #sell() {
-        if (this.state.unsold >= 1) {
-            this.state.funds += this.state.price;
-            this.state.unsold--;
-        }
+    #sell(cycles) {
+        let clipsToSell = Math.min(this.state.unsold, cycles);
+        this.state.funds += clipsToSell * this.state.price;
+        this.state.unsold -= clipsToSell;
     }
 
     #update(timestamp) {
