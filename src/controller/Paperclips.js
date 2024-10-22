@@ -1,19 +1,12 @@
 import { Button, DisplayInt } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
-import { Rect } from "../common/Rect.js";
 import { div, h2 } from "../common/elements.js";
+import { Game } from "../model/Game.js";
 
 export class Paperclips {
 
-    #autoclipperDuration = 0;
-
-    constructor(state, business, wire, autoclippers, paperclipImages) {
-        this.state = state;
+    constructor(paperclipImages) {
         this.state.show = true;
-
-        this.business = business;
-        this.wire = wire;
-        this.autoclippers = autoclippers;
 
         this.count = new DisplayInt(this.state.count);
         this.button = new Button('Make a paperclip', () => {
@@ -57,6 +50,22 @@ export class Paperclips {
 
         ppcs.append(h2('Paperclips: ', this.count.element));
         ppcs.append(this.button.element);
+    }
+
+    get state() {
+        return Game.state.paperclips;
+    }
+
+    get business() {
+        return Game.state.business;
+    }
+
+    get wire() {
+        return Game.state.manufacturing.wire;
+    }
+
+    get autoclippers() {
+        return Game.state.manufacturing.autoclippers;
     }
 }
 

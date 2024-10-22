@@ -1,16 +1,15 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { Interval } from "../common/Interval.js";
 import { div, h3, hr, br } from "../common/elements.js";
+import { Game } from "../model/Game.js";
 
 export class Business {
 
-    constructor(state, paperclips) {
-        this.state = state;
-
-        this.funds = new DisplayMoney(state.funds);
-        this.price = new DisplayMoney(state.price);
-        this.unsold = new DisplayInt(state.unsold);
-        this.marketDemand = new DisplayInt(state.marketDemand);
+    constructor() {
+        this.funds = new DisplayMoney(this.state.funds);
+        this.price = new DisplayMoney(this.state.price);
+        this.unsold = new DisplayInt(this.state.unsold);
+        this.marketDemand = new DisplayInt(this.state.marketDemand);
 
         this.lowerButton = new Button('lower', () => this.#lowerPrice());
         this.raiseButton = new Button('raise', () => this.#raisePrice());
@@ -18,7 +17,7 @@ export class Business {
         this.sellInterval = new Interval(500, (info) => this.#sell(info.cycles));
 
         this.update = (timestamp) => {
-            if (paperclips.count >= this.state.showWhenClipsReach) {
+            if (this.paperclips.count >= this.state.showWhenClipsReach) {
                 this.state.show = true;
                 this.update = this.#update;
             }
@@ -60,5 +59,13 @@ export class Business {
         bus.append('Unsold inventory: ', this.unsold.element, br());
         bus.append(this.lowerButton.element, this.raiseButton.element, ' Price per clip: ', this.price.element, br());
         bus.append('Public demand: ', this.marketDemand.element, '%', br());
+    }
+
+    get state() {
+        return Game.state.business;
+    }
+
+    get paperclips() {
+        return Game.state.paperclips;
     }
 }

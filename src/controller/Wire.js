@@ -1,19 +1,16 @@
 import { DisplayInt, DisplayMoney, Button } from "../common/Display.js";
 import { div, br } from "../common/elements.js";
 import { Interval } from "../common/Interval.js";
+import { Game } from "../model/Game.js";
 
 export class Wire {
 
-    constructor(state, business, autoclippers) {
-        this.state = state;
-        this.business = business;
-        this.autoclippers = autoclippers;
-
+    constructor() {
         this.inches = new DisplayInt(this.state.inches);
         this.cost = new DisplayMoney(this.state.cost);
         this.button = new Button('Wire', () => this.#purchase());
 
-        this.priceFluctuation = new Interval(state.price.maxChangeTime, () => this.#adjustPrice());
+        this.priceFluctuation = new Interval(this.state.price.maxChangeTime, () => this.#adjustPrice());
     }
 
     #purchase() {
@@ -57,5 +54,13 @@ export class Wire {
 
         mfc.append(this.button.element, ' ', this.inches.element, ' inches', br());
         mfc.append('Cost: ', this.cost.element, br(), br());
+    }
+
+    get state() {
+        return Game.state.manufacturing.wire;
+    }
+
+    get business() {
+        return Game.state.business;
     }
 }

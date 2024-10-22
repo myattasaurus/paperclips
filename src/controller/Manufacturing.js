@@ -1,10 +1,8 @@
 import { div, h3, hr } from "../common/elements.js";
+import { Game } from "../model/Game.js";
 
 export class Manufacturing {
-    constructor(state, business) {
-        this.state = state;
-        this.business = business;
-
+    constructor() {
         this.update = this.#showIfApplicable;
     }
 
@@ -31,5 +29,13 @@ export class Manufacturing {
 
         mfc.append(h3('Manufacturing'));
         mfc.append(hr());
+    }
+
+    get state() {
+        return Game.state.manufacturing;
+    }
+
+    get business() {
+        return Game.state.business;
     }
 }

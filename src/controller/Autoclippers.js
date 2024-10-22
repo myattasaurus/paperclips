@@ -1,18 +1,16 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { div, br } from "../common/elements.js";
+import { Game } from "../model/Game.js";
 
 export class Autoclippers {
 
     #initialCost;
 
-    constructor(state, business) {
-        this.state = state;
-        this.business = business;
+    constructor() {
+        this.#initialCost = this.state.cost;
 
-        this.#initialCost = state.cost;
-
-        this.count = new DisplayInt(state.count);
-        this.cost = new DisplayMoney(state.cost);
+        this.count = new DisplayInt(this.state.count);
+        this.cost = new DisplayMoney(this.state.cost);
         this.button = new Button('Autoclippers', () => this.#purchase());
     }
 
@@ -38,5 +36,13 @@ export class Autoclippers {
 
         mfc.append(this.button.element, ' ', this.count.element, br());
         mfc.append('Cost: ', this.cost.element);
+    }
+
+    get state() {
+        return Game.state.manufacturing.autoclippers;
+    }
+
+    get business() {
+        return Game.state.business;
     }
 }
