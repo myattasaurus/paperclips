@@ -16,7 +16,7 @@ export class Business extends GameObject {
         this.lowerButton = new Button('lower', () => this.#lowerPrice());
         this.raiseButton = new Button('raise', () => this.#raisePrice());
 
-        this.sellInterval = new Interval(500, (info) => this.#sell(info.cycles));
+        this.sellInterval = new Interval(100, (info) => this.#sell(info.cycles));
 
         this.update = (timestamp) => {
             if (this.paperclips.count >= this.state.showWhenClipsReach) {
@@ -28,17 +28,26 @@ export class Business extends GameObject {
 
     #lowerPrice() {
         this.state.price--;
+        this.#updateMarketDemand();
     }
 
     #raisePrice() {
         this.state.price++;
+        this.#updateMarketDemand();
+    }
+
+    #updateMarketDemand() {
+        this.state.marketDemand = 80 / this.state.price;
     }
 
     #sell(cycles) {
-        if (this.state.unsold >= 1) {
-            let clipsToSell = Math.min(this.state.unsold, cycles);
-            this.state.funds += clipsToSell * this.state.price;
-            this.state.unsold -= clipsToSell;
+        for (let i = 0; i < cycles && this.state.unsold >= 1; ++i) {
+            if (Math.random() < (this.state.marketDemand / 100)) {
+                let clipsToSell = 0.7 * Math.pow(this.state.marketDemand, 1.15);
+                clipsToSell = Math.floor(Math.min(this.state.unsold, clipsToSell));
+                this.state.funds += clipsToSell * this.state.price;
+                this.state.unsold -= clipsToSell;
+            }
         }
     }
 
@@ -50,7 +59,7 @@ export class Business extends GameObject {
         this.funds.value = this.state.funds;
         this.price.value = this.state.price;
         this.unsold.value = Math.floor(this.state.unsold);
-        this.marketDemand.value = this.state.marketDemand;
+        this.marketDemand.value = Math.floor(this.state.marketDemand * 10);
     }
 
     show() {

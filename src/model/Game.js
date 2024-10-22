@@ -11,7 +11,7 @@ export class Game {
                 funds: 0,
                 price: 25,
                 unsold: 0,
-                marketDemand: 32,
+                marketDemand: 3.2,
             },
             manufacturing: {
                 showWhenFundsReach: 300,
