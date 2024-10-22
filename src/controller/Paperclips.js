@@ -7,7 +7,6 @@ export class Paperclips extends GameObject {
 
     constructor(state, paperclipImages) {
         super(state);
-        this.state.show = true;
 
         this.count = new DisplayInt(this.state.count);
         this.button = new Button('Make a paperclip', () => {
@@ -17,6 +16,7 @@ export class Paperclips extends GameObject {
         });
 
         this.autoclipperInterval = new Frame((duration) => this.#makeByAutoclipper(duration));
+        this.show();
     }
 
     #make(number = 1) {
