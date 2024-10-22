@@ -49,7 +49,7 @@ export class Business extends GameObject {
     draw() {
         this.funds.value = this.state.funds;
         this.price.value = this.state.price;
-        this.unsold.value = this.state.unsold;
+        this.unsold.value = Math.floor(this.state.unsold);
         this.marketDemand.value = this.state.marketDemand;
     }
 

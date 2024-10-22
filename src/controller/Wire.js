@@ -47,7 +47,7 @@ export class Wire extends GameObject {
     }
 
     draw() {
-        this.inches.value = this.state.inches;
+        this.inches.value = Math.ceil(this.state.inches);
         this.cost.value = this.state.cost;
     }
 

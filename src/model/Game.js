@@ -34,14 +34,12 @@ export class Game {
     };
 
     static save() {
-        console.log(document.visibilityState, Game.state);
         localStorage.setItem('state', JSON.stringify(Game.state));
     }
 
     static load() {
         if (localStorage.getItem('state')) {
             Game.state = JSON.parse(localStorage.getItem('state'));
-            console.log(document.visibilityState, Game.state);
         }
     }
 

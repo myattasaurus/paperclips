@@ -43,7 +43,7 @@ export class Paperclips extends GameObject {
     }
 
     draw() {
-        this.count.value = this.state.count;
+        this.count.value = Math.floor(this.state.count);
     }
 
     show() {

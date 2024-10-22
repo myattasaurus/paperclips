@@ -22,7 +22,7 @@ export class DisplayInt {
     }
 
     toString() {
-        return commas(Math.floor(this.#value));
+        return commas(this.#value);
     }
 }
 
