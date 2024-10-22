@@ -35,9 +35,11 @@ export class Business extends GameObject {
     }
 
     #sell(cycles) {
-        let clipsToSell = Math.min(this.state.unsold, cycles);
-        this.state.funds += clipsToSell * this.state.price;
-        this.state.unsold -= clipsToSell;
+        if (this.state.unsold >= 1) {
+            let clipsToSell = Math.min(this.state.unsold, cycles);
+            this.state.funds += clipsToSell * this.state.price;
+            this.state.unsold -= clipsToSell;
+        }
     }
 
     #update(timestamp) {
