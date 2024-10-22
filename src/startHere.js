@@ -11,5 +11,10 @@ document.onvisibilitychange = () => {
     }
 }
 
+document.getElementById('reset').onclick = () => {
+    Game.reset();
+    controller.load();
+};
+
 Game.load();
 controller = new Controller();
