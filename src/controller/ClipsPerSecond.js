@@ -6,12 +6,14 @@ import { GameObject } from "./GameObject.js";
 
 export class ClipsPerSecond extends GameObject {
 
-    #previousPaperclipCount = 0;
+    #previousPaperclipCount;
 
     constructor(state) {
         super(state);
-        this.count = new DisplayInt(this.state.count);
 
+        this.#previousPaperclipCount = this.paperclips.count;
+
+        this.count = new DisplayInt(this.state.count);
         this.frame = new Interval(1000, (info) => this.#calculate(info.duration));
     }
 
