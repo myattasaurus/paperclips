@@ -1,5 +1,6 @@
 import { Interval } from "../src/common/Interval.js";
 import { body } from "../src/common/elements.js";
+import { ClipsPerSecond } from "../src/controller/ClipsPerSecond.js";
 import assertThat from "./assert.js";
 
 let suites = [
@@ -47,6 +48,32 @@ let suites = [
                     assertThat(intervalCount).equals(1);
                 }
             },
+        ]
+    },
+    {
+        name: 'ClipsPerSecond',
+        tests: [
+            {
+                description: 'High velocity',
+                run: () => {
+                    let state = {
+                        paperclips: {
+                            count: 0
+                        },
+                        clipsPerSecond: {
+                            count: 0
+                        }
+                    };
+                    let expectedCps = 9999999;
+                    let cps = new ClipsPerSecond(state.clipsPerSecond, state.paperclips);
+                    let frame = 16.6;
+                    for (let timestamp = 0; timestamp < 3000.5; timestamp += frame) {
+                        state.paperclips.count += expectedCps * frame / 1000;
+                        cps.update(timestamp);
+                    }
+                    assertThat(state.clipsPerSecond.count).equals(expectedCps);
+                }
+            }
         ]
     }
 ];

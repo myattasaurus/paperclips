@@ -15,14 +15,15 @@ export class Interval {
     }
 
     #subsequentTicks(timestamp) {
-        this.remainder += timestamp - this.previousTimestamp;
-        this.previousTimestamp = timestamp;
-        if (this.remainder >= this.time) {
+        let duration = timestamp - this.previousTimestamp;
+        if (duration >= this.time - this.remainder) {
+            this.remainder += duration;
             let info = {
                 cycles: Math.floor(this.remainder / this.time),
-                duration: this.remainder
+                duration: duration
             };
             this.remainder %= this.time;
+            this.previousTimestamp = timestamp;
             this.run(info);
         }
     }
