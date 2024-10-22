@@ -1,12 +1,14 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { div, br } from "../common/elements.js";
 import { Game } from "../model/Game.js";
+import { GameObject } from "./GameObject.js";
 
-export class Autoclippers {
+export class Autoclippers extends GameObject {
 
     #initialCost;
 
-    constructor() {
+    constructor(state) {
+        super(state);
         this.#initialCost = this.state.cost;
 
         this.count = new DisplayInt(this.state.count);
@@ -38,11 +40,12 @@ export class Autoclippers {
         mfc.append('Cost: ', this.cost.element);
     }
 
-    get state() {
-        return Game.state.manufacturing.autoclippers;
+    save(state) {
+        state.manufacturing.autoclippers = this.state;
     }
 
-    get business() {
-        return Game.state.business;
+    load(state) {
+        this.state = state.manufacturing.autoclippers;
+        this.business = state.business;
     }
 }

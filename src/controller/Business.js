@@ -2,10 +2,12 @@ import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { Interval } from "../common/Interval.js";
 import { div, h3, hr, br } from "../common/elements.js";
 import { Game } from "../model/Game.js";
+import { GameObject } from "./GameObject.js";
 
-export class Business {
+export class Business extends GameObject {
 
-    constructor() {
+    constructor(state) {
+        super(state);
         this.funds = new DisplayMoney(this.state.funds);
         this.price = new DisplayMoney(this.state.price);
         this.unsold = new DisplayInt(this.state.unsold);
@@ -61,11 +63,12 @@ export class Business {
         bus.append('Public demand: ', this.marketDemand.element, '%', br());
     }
 
-    get state() {
-        return Game.state.business;
+    save(state) {
+        state.business = this.state;
     }
 
-    get paperclips() {
-        return Game.state.paperclips;
+    load(state) {
+        this.state = state.business;
+        this.paperclips = state.paperclips;
     }
 }

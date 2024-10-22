@@ -1,8 +1,10 @@
 import { div, h3, hr } from "../common/elements.js";
 import { Game } from "../model/Game.js";
+import { GameObject } from "./GameObject.js";
 
-export class Manufacturing {
-    constructor() {
+export class Manufacturing extends GameObject {
+    constructor(state) {
+        super(state);
         this.update = this.#showIfApplicable;
     }
 
@@ -31,11 +33,12 @@ export class Manufacturing {
         mfc.append(hr());
     }
 
-    get state() {
-        return Game.state.manufacturing;
+    save(state) {
+        state.manufacturing = this.state;
     }
 
-    get business() {
-        return Game.state.business;
+    load(state) {
+        this.state = state.manufacturing;
+        this.business = state.business;
     }
 }

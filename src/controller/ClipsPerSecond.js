@@ -2,11 +2,14 @@ import { DisplayInt } from "../common/Display.js";
 import { Interval } from "../common/Interval.js";
 import { div, br } from "../common/elements.js";
 import { Game } from "../model/Game.js";
-export class ClipsPerSecond {
+import { GameObject } from "./GameObject.js";
+
+export class ClipsPerSecond extends GameObject {
 
     #previousPaperclipCount = 0;
 
-    constructor() {
+    constructor(state) {
+        super(state);
         this.count = new DisplayInt(this.state.count);
 
         this.frame = new Interval(1000, (info) => this.#calculate(info.duration));
@@ -33,11 +36,12 @@ export class ClipsPerSecond {
         cps.append('Clips per second: ', this.count.element, br(), br());
     }
 
-    get state() {
-        return Game.state.manufacturing.clipsPerSecond;
+    save(state) {
+        state.manufacturing.clipsPerSecond = this.state;
     }
 
-    get paperclips() {
-        return Game.state.paperclips;
+    load(state) {
+        this.state = state.manufacturing.clipsPerSecond;
+        this.paperclips = state.paperclips;
     }
 }

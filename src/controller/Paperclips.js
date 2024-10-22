@@ -1,11 +1,12 @@
 import { Button, DisplayInt } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
 import { div, h2 } from "../common/elements.js";
-import { Game } from "../model/Game.js";
+import { GameObject } from "./GameObject.js";
 
-export class Paperclips {
+export class Paperclips extends GameObject {
 
-    constructor(paperclipImages) {
+    constructor(state, paperclipImages) {
+        super(state);
         this.state.show = true;
 
         this.count = new DisplayInt(this.state.count);
@@ -52,20 +53,15 @@ export class Paperclips {
         ppcs.append(this.button.element);
     }
 
-    get state() {
-        return Game.state.paperclips;
+    save(state) {
+        state.paperclips = this.state;
     }
 
-    get business() {
-        return Game.state.business;
-    }
-
-    get wire() {
-        return Game.state.manufacturing.wire;
-    }
-
-    get autoclippers() {
-        return Game.state.manufacturing.autoclippers;
+    load(state) {
+        this.state = state.paperclips;
+        this.business = state.business;
+        this.wire = state.manufacturing.wire;
+        this.autoclippers = state.manufacturing.autoclippers;
     }
 }
 
@@ -177,8 +173,9 @@ class Paperclip {
     }
 }
 
-export class PaperclipImages {
-    constructor(canvas) {
+export class PaperclipImages extends GameObject {
+    constructor(canvas, state = {}) {
+        super(state);
         this.paperclips = [];
         this.canvas = canvas;
     }

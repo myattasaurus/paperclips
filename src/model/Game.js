@@ -41,6 +41,7 @@ export class Game {
     static load() {
         if (localStorage.getItem('state')) {
             Game.state = JSON.parse(localStorage.getItem('state'));
+            console.log(document.visibilityState, Game.state);
         }
     }
 

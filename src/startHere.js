@@ -1,13 +1,15 @@
 import { Controller } from "./controller/Controller.js";
 import { Game } from "./model/Game.js";
 
+let controller;
+
 document.onvisibilitychange = () => {
     if (document.visibilityState !== 'visible') {
-        Game.save();
+        controller.save();
     } else {
-        Game.load();
+        controller.load();
     }
 }
 
 Game.load();
-new Controller();
+controller = new Controller();

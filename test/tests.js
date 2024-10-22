@@ -64,18 +64,20 @@ let suites = [
                         paperclips: {
                             count: 0
                         },
-                        clipsPerSecond: {
-                            count: 0
+                        manufacturing: {
+                            clipsPerSecond: {
+                                count: 0
+                            }
                         }
                     };
                     let expectedCps = 9999999;
-                    let cps = new ClipsPerSecond(state.clipsPerSecond, state.paperclips);
+                    let cps = new ClipsPerSecond(state);
                     let frame = 16.6;
                     for (let timestamp = 0; timestamp < 3000.5; timestamp += frame) {
                         state.paperclips.count += expectedCps * frame / 1000;
                         cps.update(timestamp);
                     }
-                    assertThat(state.clipsPerSecond.count).equals(expectedCps);
+                    assertThat(state.manufacturing.clipsPerSecond.count).equals(expectedCps);
                 }
             }
         ]

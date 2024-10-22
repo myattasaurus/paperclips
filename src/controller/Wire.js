@@ -2,10 +2,12 @@ import { DisplayInt, DisplayMoney, Button } from "../common/Display.js";
 import { div, br } from "../common/elements.js";
 import { Interval } from "../common/Interval.js";
 import { Game } from "../model/Game.js";
+import { GameObject } from "./GameObject.js";
 
-export class Wire {
+export class Wire extends GameObject {
 
-    constructor() {
+    constructor(state) {
+        super(state);
         this.inches = new DisplayInt(this.state.inches);
         this.cost = new DisplayMoney(this.state.cost);
         this.button = new Button('Wire', () => this.#purchase());
@@ -56,11 +58,12 @@ export class Wire {
         mfc.append('Cost: ', this.cost.element, br(), br());
     }
 
-    get state() {
-        return Game.state.manufacturing.wire;
+    save(state) {
+        state.manufacturing.wire = this.state;
     }
 
-    get business() {
-        return Game.state.business;
+    load(state) {
+        this.state = state.manufacturing.wire;
+        this.business = state.business;
     }
 }
