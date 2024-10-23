@@ -8,6 +8,9 @@ import { PaperclipImages, Paperclips } from "./Paperclips.js";
 import { Wire } from "./Wire.js";
 
 export class Controller {
+
+    #animationId = 0;
+
     constructor() {
         this.canvas = new Canvas(document.getElementById('canvas'));
 
@@ -40,7 +43,7 @@ export class Controller {
             paperclipImages,
         ]
 
-        requestAnimationFrame((t) => this.gameLoop(t));
+        this.#animationId = requestAnimationFrame((t) => this.gameLoop(t));
     }
 
     gameLoop(timestamp) {
@@ -70,10 +73,11 @@ export class Controller {
             ctx.restore();
         }
 
-        requestAnimationFrame((t) => this.gameLoop(t));
+        this.#animationId = requestAnimationFrame((t) => this.gameLoop(t));
     }
 
     save() {
+        cancelAnimationFrame(this.#animationId);
         for (let object of this.objects) {
             object.save(Game.state);
         }
@@ -85,5 +89,6 @@ export class Controller {
         for (let object of this.objects) {
             object.load(Game.state);
         }
+        this.#animationId = requestAnimationFrame((t) => this.gameLoop(t));
     }
 }
