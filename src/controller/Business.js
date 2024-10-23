@@ -5,6 +5,8 @@ import { GameObject } from "./GameObject.js";
 
 export class Business extends GameObject {
 
+    #sellEveryMs = 100;
+
     constructor(state) {
         super(state);
         this.funds = new DisplayMoney(this.state.funds);
@@ -16,7 +18,9 @@ export class Business extends GameObject {
         this.raiseButton = new Button('raise', () => this.raisePrice());
 
         this.intervals = [
-            new Interval(100, (info) => this.sell(info.cycles))
+            new Interval(this.#sellEveryMs,
+                () => this.sellOnce(),
+                (info) => this.sellMany(info.cycles))
         ];
     }
 
@@ -34,15 +38,32 @@ export class Business extends GameObject {
         this.state.marketDemand = 80 / this.state.price;
     }
 
-    sell(cycles) {
-        for (let i = 0; i < cycles && this.state.unsold >= 1; ++i) {
-            if (Math.random() < (this.state.marketDemand / 100)) {
-                let clipsToSell = 0.7 * Math.pow(this.state.marketDemand, 1.15);
-                clipsToSell = Math.floor(Math.min(this.state.unsold, clipsToSell));
-                this.state.funds += clipsToSell * this.state.price;
-                this.state.unsold -= clipsToSell;
-            }
+    sellOnce() {
+        if (Math.random() < this.calculateChanceToSell()) {
+            let clipsToSell = Math.floor(this.calculateClipsToSell());
+            this.sell(clipsToSell);
         }
+    }
+
+    sellMany(cycles) {
+        let multiplier = cycles * this.calculateChanceToSell();
+        let clipsToSell = Math.floor(this.calculateClipsToSell() * multiplier);
+        this.sell(clipsToSell);
+    }
+
+    sell(clipsToSell) {
+        this.state.funds += clipsToSell * this.state.price;
+        this.state.unsold -= clipsToSell;
+    }
+
+    calculateChanceToSell() {
+        return this.state.marketDemand / 100;
+    }
+
+    calculateClipsToSell() {
+        let clipsToSell = 0.7 * Math.pow(this.state.marketDemand, 1.15);
+        clipsToSell = Math.min(this.state.unsold, clipsToSell);
+        return clipsToSell;
     }
 
     draw() {

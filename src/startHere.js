@@ -3,11 +3,11 @@ import { Game } from "./model/Game.js";
 
 let controller;
 
-document.onvisibilitychange = () => {
+document.onvisibilitychange = (event) => {
     if (document.visibilityState !== 'visible') {
         controller.save();
     } else {
-        controller.load();
+        controller.load(event.timeStamp);
     }
 }
 

@@ -84,10 +84,17 @@ export class Controller {
         Game.save();
     }
 
-    load() {
+    load(timestamp) {
         Game.load();
         for (let object of this.objects) {
             object.load(Game.state);
+        }
+        for (let object of this.objects) {
+            if (object.intervals) {
+                for (let interval of object.intervals) {
+                    interval.onVisible(timestamp);
+                }
+            }
         }
         this.#animationId = requestAnimationFrame((t) => this.gameLoop(t));
     }
