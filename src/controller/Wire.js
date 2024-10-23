@@ -1,7 +1,6 @@
 import { DisplayInt, DisplayMoney, Button } from "../common/Display.js";
 import { div, br } from "../common/elements.js";
 import { Interval } from "../common/Interval.js";
-import { Game } from "../model/Game.js";
 import { GameObject } from "./GameObject.js";
 
 export class Wire extends GameObject {
@@ -10,19 +9,23 @@ export class Wire extends GameObject {
         super(state);
         this.inches = new DisplayInt(this.state.inches);
         this.cost = new DisplayMoney(this.state.cost);
-        this.button = new Button('Wire', () => this.#purchase());
+        this.button = new Button('Wire', () => this.purchase());
 
-        this.priceFluctuation = new Interval(this.state.price.maxChangeTime, () => this.#adjustPrice());
+        this.priceFluctuation = new Interval(this.state.price.maxChangeTime, () => this.adjustPrice());
+
+        this.intervals = [
+            this.priceFluctuation
+        ];
     }
 
-    #purchase() {
+    purchase() {
         if (this.business.funds >= this.state.cost) {
             this.business.funds -= this.state.cost;
             this.state.inches += this.state.purchaseLength;
         }
     }
 
-    #adjustPrice() {
+    adjustPrice() {
         let price = this.state.price;
         let changeTimeRange = price.maxChangeTime - price.minChangeTime;
         this.priceFluctuation.time = Math.random() * changeTimeRange + price.minChangeTime;
@@ -41,12 +44,8 @@ export class Wire extends GameObject {
 
     }
 
-    update(timestamp) {
-        this.button.enabled = this.business.funds >= this.state.cost;
-        this.priceFluctuation.tick(timestamp);
-    }
-
     draw() {
+        this.button.enabled = this.business.funds >= this.state.cost;
         this.inches.value = Math.ceil(this.state.inches);
         this.cost.value = this.state.cost;
     }

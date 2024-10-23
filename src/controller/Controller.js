@@ -12,52 +12,78 @@ export class Controller {
         this.canvas = new Canvas(document.getElementById('canvas'));
 
         let paperclipImages = new PaperclipImages(this.canvas);
+        let paperclips = new Paperclips(Game.state, paperclipImages);
+
+        let business = new Business(Game.state);
+
+        let clipsPerSecond = new ClipsPerSecond(Game.state);
+        let wire = new Wire(Game.state);
+        let autoclippers = new Autoclippers(Game.state);
+        let manufacturing = new Manufacturing(Game.state, clipsPerSecond, wire, autoclippers);
+
+        this.sections = [
+            paperclips,
+            business,
+            manufacturing,
+        ];
 
         this.objects = [
-            new Paperclips(Game.state, paperclipImages),
+            paperclips,
             paperclipImages,
-            new Business(Game.state),
-            new Manufacturing(Game.state),
-            new ClipsPerSecond(Game.state),
-            new Wire(Game.state),
-            new Autoclippers(Game.state),
+            business,
+            clipsPerSecond,
+            wire,
+            autoclippers,
         ];
+
+        this.paintings = [
+            paperclipImages,
+        ]
 
         requestAnimationFrame((t) => this.gameLoop(t));
     }
 
     gameLoop(timestamp) {
-        for (let drawable of this.objects) {
-            if (drawable.state && drawable.state.show) {
-                drawable.show();
-                drawable.state.show = undefined;
+        for (let i = this.sections.length - 1; i >= 0; i--) {
+            if (this.sections[i].show()) {
+                this.sections.splice(i, 1);
             }
         }
-        for (let drawable of this.objects) {
-            drawable.update(timestamp);
+        for (let object of this.objects) {
+            if (object.intervals) {
+                for (let interval of object.intervals) {
+                    interval.tick(timestamp);
+                }
+            }
+        }
+        for (let object of this.objects) {
+            if (object.draw) {
+                object.draw();
+            }
         }
 
         this.canvas.clear();
         let ctx = this.canvas.context;
-        for (let drawable of this.objects) {
+        for (let painting of this.paintings) {
             ctx.save();
-            drawable.draw(ctx);
+            painting.paint(ctx);
             ctx.restore();
         }
+
         requestAnimationFrame((t) => this.gameLoop(t));
     }
 
     save() {
-        for (let drawable of this.objects) {
-            drawable.save(Game.state);
+        for (let object of this.objects) {
+            object.save(Game.state);
         }
         Game.save();
     }
 
     load() {
         Game.load();
-        for (let drawable of this.objects) {
-            drawable.load(Game.state);
+        for (let object of this.objects) {
+            object.load(Game.state);
         }
     }
 }

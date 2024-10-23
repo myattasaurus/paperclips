@@ -10,16 +10,16 @@ export class Paperclips extends GameObject {
 
         this.count = new DisplayInt(this.state.count);
         this.button = new Button('Make a paperclip', () => {
-            this.#make();
-
+            this.make();
             paperclipImages.spawn(this.button.rect.mid.x, this.button.rect.top);
         });
 
-        this.autoclipperInterval = new Frame((duration) => this.#makeByAutoclipper(duration));
-        this.show();
+        this.intervals = [
+            new Frame((duration) => this.makeByAutoclipper(duration))
+        ];
     }
 
-    #make(number = 1) {
+    make(number = 1) {
         if (this.wire.inches > 0) {
             if (number > this.wire.inches) {
                 this.state.count = Math.round(this.state.count + this.wire.inches);
@@ -33,16 +33,12 @@ export class Paperclips extends GameObject {
         }
     }
 
-    #makeByAutoclipper(duration) {
-        this.#make(this.autoclippers.count * duration / 1000);
-    }
-
-    update(timestamp) {
-        this.button.enabled = this.wire.inches > 0;
-        this.autoclipperInterval.tick(timestamp);
+    makeByAutoclipper(duration) {
+        this.make(this.autoclippers.count * duration / 1000);
     }
 
     draw() {
+        this.button.enabled = this.wire.inches > 0;
         this.count.value = Math.floor(this.state.count);
     }
 
@@ -51,6 +47,8 @@ export class Paperclips extends GameObject {
 
         ppcs.append(h2('Paperclips: ', this.count.element));
         ppcs.append(this.button.element);
+
+        return true;
     }
 
     save(state) {
@@ -97,15 +95,9 @@ class Paperclip {
         for (let key of Object.keys(overwriteDefaults)) {
             this[key] = overwriteDefaults[key];
         }
-
-        this.frame = new Frame((d) => this.#update(d));
     }
 
-    update(timestamp) {
-        this.frame.tick(timestamp);
-    }
-
-    #update(duration) {
+    update(duration) {
         let seconds = duration / 1000;
         let rotations = this.rotationsPerSecond * seconds * Paperclip.#TWO_PI;
         this.radians = (this.radians + rotations) % Paperclip.#TWO_PI;
@@ -116,16 +108,16 @@ class Paperclip {
         this.dyPerSecond += this.ddyPerSecond * seconds;
     }
 
-    draw(ctx) {
+    paint(ctx) {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.radians);
         ctx.translate(-this.x, -this.y);
-        this.#draw(ctx);
+        this.#paint(ctx);
         ctx.restore();
     }
 
-    #draw(ctx) {
+    #paint(ctx) {
         let height = this.height;
 
         let x = this.x;
@@ -178,6 +170,10 @@ export class PaperclipImages extends GameObject {
         super(state);
         this.paperclips = [];
         this.canvas = canvas;
+
+        this.intervals = [
+            new Frame((d) => this.update(d))
+        ];
     }
 
     spawn(x, y) {
@@ -198,23 +194,23 @@ export class PaperclipImages extends GameObject {
         }
     }
 
-    update(timestamp) {
+    update(duration) {
         for (let paperclip of this.paperclips) {
-            paperclip.update(timestamp);
+            paperclip.update(duration);
             if (paperclip.x > canvas.width + 50 || paperclip.y > canvas.height + 50) {
                 this.despawn(paperclip);
             }
         }
     }
 
-    draw(ctx) {
+    paint(ctx) {
         ctx.lineCap = 'round';
         ctx.lineWidth = 1;
         ctx.strokeStyle = 'gray';
         ctx.save();
 
         for (let paperclip of this.paperclips) {
-            paperclip.draw(ctx);
+            paperclip.paint(ctx);
         }
         ctx.restore();
     }

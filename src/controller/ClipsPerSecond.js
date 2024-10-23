@@ -14,18 +14,17 @@ export class ClipsPerSecond extends GameObject {
         this.#previousPaperclipCount = this.paperclips.count;
 
         this.count = new DisplayInt(this.state.count);
-        this.frame = new Interval(1000, (info) => this.#calculate(info.duration));
+
+        this.intervals = [
+            new Interval(1000, (info) => this.calculate(info.duration))
+        ];
     }
 
-    #calculate(duration) {
+    calculate(duration) {
         let currentPaperclipCount = this.paperclips.count;
         let paperclipsSinceLastTick = currentPaperclipCount - this.#previousPaperclipCount;
         this.state.count = Math.round(paperclipsSinceLastTick * 1000 / duration);
         this.#previousPaperclipCount = currentPaperclipCount;
-    }
-
-    update(timestamp) {
-        this.frame.tick(timestamp);
     }
 
     draw() {

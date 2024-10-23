@@ -1,7 +1,6 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { Interval } from "../common/Interval.js";
 import { div, h3, hr, br } from "../common/elements.js";
-import { Game } from "../model/Game.js";
 import { GameObject } from "./GameObject.js";
 
 export class Business extends GameObject {
@@ -13,34 +12,29 @@ export class Business extends GameObject {
         this.unsold = new DisplayInt(this.state.unsold);
         this.marketDemand = new DisplayInt(this.state.marketDemand);
 
-        this.lowerButton = new Button('lower', () => this.#lowerPrice());
-        this.raiseButton = new Button('raise', () => this.#raisePrice());
+        this.lowerButton = new Button('lower', () => this.lowerPrice());
+        this.raiseButton = new Button('raise', () => this.raisePrice());
 
-        this.sellInterval = new Interval(100, (info) => this.#sell(info.cycles));
-
-        this.update = (timestamp) => {
-            if (this.paperclips.count >= this.state.showWhenClipsReach) {
-                this.state.show = true;
-                this.update = this.#update;
-            }
-        };
+        this.intervals = [
+            new Interval(100, (info) => this.sell(info.cycles))
+        ];
     }
 
-    #lowerPrice() {
+    lowerPrice() {
         this.state.price--;
-        this.#updateMarketDemand();
+        this.updateMarketDemand();
     }
 
-    #raisePrice() {
+    raisePrice() {
         this.state.price++;
-        this.#updateMarketDemand();
+        this.updateMarketDemand();
     }
 
-    #updateMarketDemand() {
+    updateMarketDemand() {
         this.state.marketDemand = 80 / this.state.price;
     }
 
-    #sell(cycles) {
+    sell(cycles) {
         for (let i = 0; i < cycles && this.state.unsold >= 1; ++i) {
             if (Math.random() < (this.state.marketDemand / 100)) {
                 let clipsToSell = 0.7 * Math.pow(this.state.marketDemand, 1.15);
@@ -51,10 +45,6 @@ export class Business extends GameObject {
         }
     }
 
-    #update(timestamp) {
-        this.sellInterval.tick(timestamp);
-    }
-
     draw() {
         this.funds.value = this.state.funds;
         this.price.value = this.state.price;
@@ -63,15 +53,20 @@ export class Business extends GameObject {
     }
 
     show() {
-        let bus = div('business');
+        if (this.paperclips.count >= this.state.showWhenClipsReach) {
+            let bus = div('business');
 
-        bus.append(h3('Business'));
-        bus.append(hr());
+            bus.append(h3('Business'));
+            bus.append(hr());
 
-        bus.append('Available funds: ', this.funds.element, br());
-        bus.append('Unsold inventory: ', this.unsold.element, br());
-        bus.append(this.lowerButton.element, this.raiseButton.element, ' Price per clip: ', this.price.element, br());
-        bus.append('Public demand: ', this.marketDemand.element, '%', br());
+            bus.append('Available funds: ', this.funds.element, br());
+            bus.append('Unsold inventory: ', this.unsold.element, br());
+            bus.append(this.lowerButton.element, this.raiseButton.element, ' Price per clip: ', this.price.element, br());
+            bus.append('Public demand: ', this.marketDemand.element, '%', br());
+
+            return true;
+        }
+        return false;
     }
 
     save(state) {

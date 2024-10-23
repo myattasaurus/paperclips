@@ -31,6 +31,7 @@ export class Game {
                 },
                 autoclippers: {
                     count: 0,
+                    baseCost: 500,
                     cost: 500
                 }
             }
