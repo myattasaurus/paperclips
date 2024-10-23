@@ -13,7 +13,12 @@ document.onvisibilitychange = () => {
 
 document.getElementById('reset').onclick = () => {
     Game.reset();
-    controller.load();
+    for (let div of document.querySelectorAll('div[id]')) {
+        while (div.firstChild) {
+            div.removeChild(div.lastChild);
+        }
+    }
+    controller = new Controller();
 };
 
 Game.load();
