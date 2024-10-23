@@ -1,5 +1,6 @@
 import { Button, DisplayInt } from "../common/Display.js";
 import { Frame } from "../common/Frame.js";
+import { Frame2 } from "../common/Frame2.js";
 import { div, h2 } from "../common/elements.js";
 import { GameObject } from "./GameObject.js";
 
@@ -13,10 +14,6 @@ export class Paperclips extends GameObject {
             this.make();
             paperclipImages.spawn(this.button.rect.mid.x, this.button.rect.top);
         });
-
-        this.intervals = [
-            new Frame((duration) => this.makeByAutoclipper(duration))
-        ];
     }
 
     make(number = 1) {
@@ -53,6 +50,10 @@ export class Paperclips extends GameObject {
 
     save(state) {
         state.paperclips = this.state;
+
+        for (let interval of this.intervals) {
+            interval.save(state.paperclips.interval);
+        }
     }
 
     load(state) {
@@ -60,6 +61,11 @@ export class Paperclips extends GameObject {
         this.business = state.business;
         this.wire = state.manufacturing.wire;
         this.autoclippers = state.manufacturing.autoclippers;
+
+        console.log(this.state);
+        this.intervals = [
+            new Frame2(this.state.interval, (duration) => this.makeByAutoclipper(duration))
+        ];
     }
 }
 

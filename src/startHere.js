@@ -1,13 +1,14 @@
 import { Controller } from "./controller/Controller.js";
 import { Game } from "./model/Game.js";
 
-let controller;
+Game.load();
+let controller = new Controller();
 
-document.onvisibilitychange = (event) => {
+document.onvisibilitychange = () => {
     if (document.visibilityState !== 'visible') {
         controller.save();
     } else {
-        controller.load(event.timeStamp);
+        controller.load();
     }
 }
 
@@ -21,5 +22,3 @@ document.getElementById('reset').onclick = () => {
     controller = new Controller();
 };
 
-Game.load();
-controller = new Controller();

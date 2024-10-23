@@ -1,12 +1,10 @@
 import { Button, DisplayInt, DisplayMoney } from "../common/Display.js";
 import { Interval } from "../common/Interval.js";
+import { Interval2 } from "../common/Interval2.js";
 import { div, h3, hr, br } from "../common/elements.js";
 import { GameObject } from "./GameObject.js";
 
 export class Business extends GameObject {
-
-    #sellEveryMs = 100;
-
     constructor(state) {
         super(state);
         this.funds = new DisplayMoney(this.state.funds);
@@ -16,12 +14,6 @@ export class Business extends GameObject {
 
         this.lowerButton = new Button('lower', () => this.lowerPrice());
         this.raiseButton = new Button('raise', () => this.raisePrice());
-
-        this.intervals = [
-            new Interval(this.#sellEveryMs,
-                () => this.sellOnce(),
-                (info) => this.sellMany(info.cycles))
-        ];
     }
 
     lowerPrice() {
@@ -92,10 +84,21 @@ export class Business extends GameObject {
 
     save(state) {
         state.business = this.state;
+
+        for (let interval of this.intervals) {
+            interval.save(state.business.interval);
+        }
     }
 
     load(state) {
         this.state = state.business;
         this.paperclips = state.paperclips;
+
+        console.log(this.state);
+        this.intervals = [
+            new Interval2(this.state.interval,
+                () => this.sellOnce(),
+                (info) => this.sellMany(info.cycles))
+        ];
     }
 }

@@ -5,6 +5,7 @@ export class Game {
         Game.state = {
             paperclips: {
                 count: 0,
+                interval: {},
             },
             business: {
                 showWhenClipsReach: 10,
@@ -12,6 +13,9 @@ export class Game {
                 price: 25,
                 unsold: 0,
                 marketDemand: 3.2,
+                interval: {
+                    time: 100
+                },
             },
             manufacturing: {
                 showWhenFundsReach: 300,

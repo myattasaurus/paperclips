@@ -43,10 +43,11 @@ export class Controller {
             paperclipImages,
         ]
 
-        this.#animationId = requestAnimationFrame((t) => this.gameLoop(t));
+        this.load();
     }
 
     gameLoop(timestamp) {
+        timestamp = Date.now();
         for (let i = this.sections.length - 1; i >= 0; i--) {
             if (this.sections[i].show()) {
                 this.sections.splice(i, 1);
@@ -84,7 +85,8 @@ export class Controller {
         Game.save();
     }
 
-    load(timestamp) {
+    load() {
+        let timestamp = Date.now();
         Game.load();
         for (let object of this.objects) {
             object.load(Game.state);
