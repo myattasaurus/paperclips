@@ -35,3 +35,13 @@ footer {
     position: absolute;
     bottom: 0;
 }
+
+#timeAway {
+    margin: auto;
+    padding: 0.5em;
+    height: 50%;
+    width: 50%;
+    top: 50%;
+    border: 0.1em solid black;
+    border-radius: 0.5em;
+}
